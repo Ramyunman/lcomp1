@@ -61,10 +61,16 @@ public class Controller extends HttpServlet {
 				userService = UserService.getInstance();
 				user = userService.detailUser(user);
 				request.setAttribute("user", user);
+				view = "user/detail";
 				break;
 			case "/user-modify.do":
+				user = new User();
+				user.setU_idx(Integer.parseInt(request.getParameter("u_idx")));
+				userService = UserService.getInstance();
+				user = userService.detailUser(user);
+				request.setAttribute("user", user);
 				view = "user/modify";
-				break;
+				break; 
 			case "/user-delete.do":
 				view = "user/delete";
 				break;

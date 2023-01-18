@@ -34,7 +34,11 @@ public class UserService {
 //		
 //	}
 
-	public User detailUser(User user) {		//01-18
+	public User detailUser(User user) {		//01-18 상세
 		return dao.detailUser(user);
+	}
+
+	public void modifyUser(User user) {		//01-18 수정
+		dao.modifyUser(user);
 	}
 }
