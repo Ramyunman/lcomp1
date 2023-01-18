@@ -140,7 +140,7 @@ public class UserDAO {
 			pstmt.setInt(1, user.getU_idx());
 			rs = pstmt.executeQuery();
 			
-			while(rs.next()){
+			while (rs.next()){
 				resultUser = new User();
 				resultUser.setU_idx(Integer.parseInt(rs.getString("u_idx")));
 				resultUser.setU_id(rs.getString("u_id"));
@@ -164,6 +164,32 @@ public class UserDAO {
 		return resultUser;
 	}
 		
+	public User deleteUser(User user) {		// 2023-01-18
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		User resultUser = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "delete from user where u_idx=?";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, user.getU_idx());
+			rs = pstmt.executeQuery();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return resultUser;
+	}
 	
 
 }
