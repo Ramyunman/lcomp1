@@ -130,7 +130,7 @@ public class UserDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "UPDATE user SET u_id = ?,u_pw = ?,u_name = ?,u_tel = ?,u_age = ? where u_idx=?";
+			String sql = "UPDATE user SET u_id = ?, u_pw = ?, u_name = ?, u_tel = ?, u_age = ? where u_idx = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getU_id());
 			pstmt.setString(2, user.getU_pw());
