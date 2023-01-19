@@ -29,16 +29,18 @@ public class UserService {
 	public void insertUser(User user) {
 		dao.insertUser(user);
 	}
-	
-//	public void detailUser(User user) {		//01-17
-//		
-//	}
 
-	public User detailUser(User user) {		//01-18 상세
+	public User detailUser(User user) {		//01-19 
 		return dao.detailUser(user);
 	}
+	
 
-	public void modifyUser(User user) {		//01-18 수정
-		dao.modifyUser(user);
+	public User deleteUser(User user) {		//01-19
+		return dao.deleteUser(user);
+	}
+
+	public void updateUser(User user) {		//01-19
+		dao.updateUser(user);
+		
 	}
 }

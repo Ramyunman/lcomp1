@@ -87,7 +87,8 @@ public class UserDAO {
 		}
 	}
 	
-	public User detailUser(User user) {		// 2023-01-18
+	
+	public User detailUser(User user) {		// 01-18	상세보기
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -107,11 +108,7 @@ public class UserDAO {
 				resultUser.setU_name(rs.getString("u_name"));
 				resultUser.setU_tel(rs.getString("u_tel"));
 				resultUser.setU_age(rs.getString("u_age"));
-		   	       /*String u_idx = rs.getString("u_idx");
-		           String u_id = rs.getString("u_id");
-		           String u_name = rs.getString("u_name");
-		           String u_tel = rs.getString("u_tel");
-		           String u_age = rs.getString("u_age");*/
+		   	  
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -127,44 +124,37 @@ public class UserDAO {
 		return resultUser;
 	}
 	
-	public User modifyUser(User user) {		// 2023-01-18
+	public void updateUser(User user) {		// 01-19	업데이트
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		User resultUser = null;
 		
 		try {
 			conn = DBConnection.getConnection();
-			String query = "select * from user where u_idx=?";
-			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, user.getU_idx());
-			rs = pstmt.executeQuery();
-			
-			while (rs.next()){
-				resultUser = new User();
-				resultUser.setU_idx(Integer.parseInt(rs.getString("u_idx")));
-				resultUser.setU_id(rs.getString("u_id"));
-				resultUser.setU_pw(rs.getString("u_pw"));
-				resultUser.setU_name(rs.getString("u_name"));
-				resultUser.setU_tel(rs.getString("u_tel"));
-				resultUser.setU_age(rs.getString("u_age"));
-		   	     
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			String sql = "UPDATE user SET u_id = ?,u_pw = ?,u_name = ?,u_tel = ?,u_age = ? where u_idx=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user.getU_id());
+			pstmt.setString(2, user.getU_pw());
+			pstmt.setString(3, user.getU_name());
+			pstmt.setString(4, user.getU_tel());
+			pstmt.setString(5, user.getU_age());
+			pstmt.setString(6, String.valueOf(user.getU_idx()));
+			pstmt.executeUpdate();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		} finally {
 			try {
-				rs.close();
-				pstmt.close();
-				conn.close();
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		return resultUser;
-	}
 		
-	public User deleteUser(User user) {		// 2023-01-18
+	}
+	
+
+	
+	public User deleteUser(User user) {		// 01-19	삭제
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

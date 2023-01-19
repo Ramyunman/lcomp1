@@ -39,39 +39,59 @@ public class Controller extends HttpServlet {
 				view = "user/list";
 				request.setAttribute("list", list);
 				break;
-			case "/user-insert.do":
+				
+			case "/user-insert.do":			//보여주기
 				view = "user/insert";
 				break;
-			case "/user-insert-process.do":
+				
+			case "/user-insert-process.do":		//실제 저장하는 코드 -> 있는 이유 : 이게 있어야 저장이 된다. 위에 하나만 있으면 시작하자마자 바로 저장이 되어서 입력할수가 없다.
 				user = new User();
 				user.setU_id(request.getParameter("id"));
 				user.setU_pw(request.getParameter("password"));
 				user.setU_name(request.getParameter("name"));
 				user.setU_tel(request.getParameter("tel1") + "-" + request.getParameter("tel2") + "-" + request.getParameter("tel3"));
 				user.setU_age(request.getParameter("age"));
-				
 				userService = UserService.getInstance();
 				userService.insertUser(user);
-				
 				view = "user/insert-result";
 				break;
-			case "/user-detail.do":		// 2023-01-18
-				user = new User();
+				
+			case "/user-detail.do":		//01-18
+				user = new User();		//user라는 저장공간을 만들어 놓은 것이다. 새로운 인스턴스를 만든게 아니라.
 				user.setU_idx(Integer.parseInt(request.getParameter("u_idx")));
 				userService = UserService.getInstance();
 				user = userService.detailUser(user);
 				request.setAttribute("user", user);
 				view = "user/detail";
 				break;
-			case "/user-modify.do":
-				user = new User();
+				
+			case "/user-update.do":		//01-19
+				user = new User();		//user라는 저장공간을 만들어 놓은 것이다. 새로운 인스턴스를 만든게 아니라.
 				user.setU_idx(Integer.parseInt(request.getParameter("u_idx")));
 				userService = UserService.getInstance();
 				user = userService.detailUser(user);
 				request.setAttribute("user", user);
-				view = "user/modify";
+				view = "user/update";
+				break;
+			
+			case "/user-update-process.do":		//01-19
+				user = new User();
+				user.setU_id(request.getParameter("id"));
+				user.setU_pw(request.getParameter("password"));
+				user.setU_name(request.getParameter("name"));
+				user.setU_tel(request.getParameter("tel1") + "-" + request.getParameter("tel2") + "-" + request.getParameter("tel3"));
+				user.setU_age(request.getParameter("age"));
+				user.setU_idx(Integer.parseInt(request.getParameter("idx")));
+				userService = UserService.getInstance();
+				userService.updateUser(user);
+				view = "user/update-result";
 				break; 
-			case "/user-delete.do":
+				
+			case "/user-delete.do":		//01-19
+				user = new User();
+				user.setU_idx(Integer.parseInt(request.getParameter("u_idx")));
+				userService = UserService.getInstance();
+				user = userService.deleteUser(user);
 				view = "user/delete";
 				break;
 				
