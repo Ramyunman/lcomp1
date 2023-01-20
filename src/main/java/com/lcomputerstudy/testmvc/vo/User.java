@@ -7,6 +7,7 @@ public class User {
 	private String u_pw;
 	private String u_name;
 	private String u_tel;
+	private String[] u_telArr;		// 전화번호 배열
 	private String u_age;
 	
 	public int getU_idx() {
@@ -38,6 +39,12 @@ public class User {
 	}
 	public void setU_tel(String u_tel) {
 		this.u_tel = u_tel;
+	}
+	public String[] getU_telArr() {		// u_telArr
+		return u_telArr;
+	}
+	public void setU_telArr(String[] u_telArr) {	//u_telArr
+		this.u_telArr = u_telArr;
 	}
 	public String getU_age() {
 		return u_age;

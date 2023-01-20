@@ -76,13 +76,13 @@ public class Controller extends HttpServlet {
 			
 			case "/user-update-process.do":		//01-19
 				user = new User();
-				//user.setU_idx(Integer.parseInt(request.getParameter("idx")));
 				user.setU_id(request.getParameter("id"));
 				user.setU_pw(request.getParameter("password"));
 				user.setU_name(request.getParameter("name"));
 				user.setU_tel(request.getParameter("tel1") + "-" + request.getParameter("tel2") + "-" + request.getParameter("tel3"));
+				user.setU_telArr(user.getU_tel().split("-"));	//1
 				user.setU_age(request.getParameter("age"));
-				
+				user.setU_idx(Integer.parseInt(request.getParameter("u_idx")));
 				userService = UserService.getInstance();
 				userService.updateUser(user);
 				view = "user/update-result";

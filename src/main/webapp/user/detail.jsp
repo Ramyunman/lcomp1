@@ -31,6 +31,7 @@
 </style>
 <body>
 	<h1>회원 상세페이지</h1>
+
 	<table>
 	<tr>
 		<td>회원 번호</td>

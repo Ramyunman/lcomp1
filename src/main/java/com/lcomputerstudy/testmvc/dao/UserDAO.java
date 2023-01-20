@@ -43,6 +43,7 @@ public class UserDAO {
 				user.setU_id(rs.getString("u_id"));
 				user.setU_name(rs.getString("u_name"));
 				user.setU_tel(rs.getString("u_tel"));
+				user.setU_telArr(user.getU_tel().split("-"));		//전화번호 3개로 쪼개기
 				user.setU_age(rs.getString("u_age"));
 				list.add(user);
 			}
@@ -107,6 +108,8 @@ public class UserDAO {
 				resultUser.setU_id(rs.getString("u_id"));
 				resultUser.setU_name(rs.getString("u_name"));
 				resultUser.setU_tel(rs.getString("u_tel"));
+				resultUser.setU_telArr(resultUser.getU_tel().split("-"));		// 배열이 필요한 이유는 u_tel에 저장되어 있는 것을 3군데로 나누기 위한 배열 즉 담은 공간 3개 바구니를 만든것과 같은 것이다.
+				resultUser.setU_pw(rs.getString("u_pw"));
 				resultUser.setU_age(rs.getString("u_age"));
 		   	  
 			}
