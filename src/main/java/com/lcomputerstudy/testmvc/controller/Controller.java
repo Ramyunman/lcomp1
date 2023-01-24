@@ -1,6 +1,7 @@
 package com.lcomputerstudy.testmvc.controller;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lcomputerstudy.testmvc.service.UserService;
+import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.User;
 
 @WebServlet("*.do")
@@ -32,12 +34,25 @@ public class Controller extends HttpServlet {
 		UserService userService = null; 
 		User user = null;
 		
+		int page = 1;
+		
+		response.setContentType("text/html; charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		
 		switch (command) {
 			case "/user-list.do":
+				String reqPage = request.getParameter("page");
+				if (reqPage != null) 
+					page = Integer.parseInt(reqPage);
+					
 				userService = UserService.getInstance();
-				ArrayList<User> list = userService.getUsers();
-				view = "user/list";
+				ArrayList<User> list = userService.getUsers(page);
+				Pagination pagination = new Pagination(page);
+				
 				request.setAttribute("list", list);
+				request.setAttribute("pagination", pagination);
+				
+				view = "user/list";
 				break;
 				
 			case "/user-insert.do":			//보여주기

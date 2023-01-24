@@ -22,8 +22,8 @@ public class UserService {
 		return service;
 	}
 	
-	public ArrayList<User> getUsers() {
-		return dao.getUsers();
+	public ArrayList<User> getUsers(int page) {
+		return dao.getUsers(page);
 	}
 
 	public void insertUser(User user) {
@@ -34,7 +34,6 @@ public class UserService {
 		return dao.detailUser(user);
 	}
 	
-
 	public User deleteUser(User user) {		//01-19
 		return dao.deleteUser(user);
 	}
@@ -42,5 +41,9 @@ public class UserService {
 	public void updateUser(User user) {		//01-19
 		dao.updateUser(user);
 		
+	}
+
+	public int getUsersCount() {
+		return dao.getUsersCount();
 	}
 }

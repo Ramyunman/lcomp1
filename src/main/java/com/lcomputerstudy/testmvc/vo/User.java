@@ -9,6 +9,7 @@ public class User {
 	private String u_tel;
 	private String[] u_telArr;		// 전화번호 배열
 	private String u_age;
+	private int rownum;				//rownum 추가
 	
 	public int getU_idx() {
 		return u_idx;
@@ -52,6 +53,13 @@ public class User {
 	public void setU_age(String u_age) {
 		this.u_age = u_age;
 	}
+	public int getRownum() {
+		return rownum;
+	}
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}
+	
 	
 	
 }
