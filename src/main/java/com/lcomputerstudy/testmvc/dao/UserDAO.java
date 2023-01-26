@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.lcomputerstudy.testmvc.database.DBConnection;
+import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.User;
 
 public class UserDAO {
@@ -24,12 +25,12 @@ public class UserDAO {
 		return dao;
 	}
 	
-	public ArrayList<User> getUsers(int page) {
+	public ArrayList<User> getUsers(Pagination pagination) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<User> list = null;
-		int pageNum = (page-1)*3;
+		int pageNum = pagination.getPageNum();
 		
 		try {
 			conn = DBConnection.getConnection();
@@ -37,13 +38,14 @@ public class UserDAO {
 			String query = new StringBuilder()
 					.append("SELECT         @ROWNUM := @ROWNUM - 1 AS ROWNUM,\n")
 					.append("               ta.*\n")
-					.append("FROM           user ta,\n")
-					.append("               (SELECT @rownum := (SELECT COUNT(*)-?+1 FROM user ta)) tb\n")
-					.append("LIMIT          ?, 3\n")
+					.append("FROM           user ta\n")
+					.append("INNER JOIN      (SELECT @rownum := (SELECT COUNT(*)-?+1 FROM user ta)) tb ON 1=1 \n")
+					.append("LIMIT          ?, ?\n")
 					.toString();
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, pageNum);
 			pstmt.setInt(2, pageNum);
+			pstmt.setInt(3, Pagination.perPage);
 			rs = pstmt.executeQuery();
 			list = new ArrayList<User>();
 			
@@ -60,7 +62,7 @@ public class UserDAO {
 				list.add(user);
 			}
 		} catch (Exception e) {
-			
+			e.printStackTrace();		//예외 설정을 하자!!!
 		} finally {
 			try {
 				if(rs != null) rs.close();

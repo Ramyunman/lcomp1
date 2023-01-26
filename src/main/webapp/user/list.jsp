@@ -48,7 +48,7 @@
 <h1>회원 목록</h1>
 	<table>
 		<tr>
-			<td colspan="3">전체 회원 수: ${pagination.userCount }</td>
+			<td colspan="3">전체 회원 수: ${pagination.count }</td>
 		<tr>
 			<th>No</th>
 			<th>ID</th>
@@ -62,33 +62,35 @@
 			</tr>
 		</c:forEach>	
 	</table>
+	
 <!-- 아래부터 pagination -->
 	<div>
 		<ul>
 			<c:choose>
-				<c:when test="${ pagination.prevPage lt 5 }">	
-					<li style = "display:none;">
-						<span>◀</span>
+				<c:when test="${ pagination.prevPage < 0 }">
+					<li style="display:none;">					
+						<span>◀</span>	
 					</li>
 				</c:when>
-				<c:when test="${ pagination.prevPage ge 5 }">
-					<li>
+				<c:when test="${ pagination.prevPage <= pagination.endPage }">
+					<li>					
 						<a href="user-list.do?page=${pagination.prevPage}">
 							◀
 						</a>
 					</li>
 				</c:when>
+				
 			</c:choose>
 			<c:forEach var ="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
 			
 				<c:choose>
-					<c:when test="${ pagination.page eq i }">
+					<c:when test="${ pagination.page == i }">		<%-- 현재페이지가 i와 같다면 회색으로 나오게 한다. --%>
 					
 						<li style="background-color:#ededed;">
 							<span>${i}</span>
 						</li>
 					</c:when>
-					<c:when test="${ pagination.page ne i }">
+					<c:when test="${ pagination.page != i }">		<%-- 현재페이지가 i와 다르다면 링크를 걸게 한다. --%>
 						<li>
 							<a href="user-list.do?page=${i}">${i}</a>
 						</li>
@@ -96,20 +98,12 @@
 				</c:choose>
 			</c:forEach>
 			<c:choose>
-				<c:when test="${ pagination.nextPage lt pagination.lastPage }">
-					<li style="">
-						<a href="user-list.do?page=${pagination.nextPage}">▶</a>
-					</li>
-				</c:when>
-				<c:when test = "${ pagination.nextPage ge pagination.lastPage }">
-					<li style="display:none;">
+				<c:when test="${ pagination.nextPage <= pagination.lastPage }">
+					<li style="">	
 						<a href="user-list.do?page=${pagination.nextPage}">▶</a>
 					</li>
 				</c:when>
 			</c:choose>
-			<%--	<li>
-				<a href="user-list.do?page=${pagination.nextPage}">▶</a>
-			</li>	 --%>
 		</ul>
 	</div>
 </body>

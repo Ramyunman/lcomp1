@@ -1,9 +1,7 @@
 package com.lcomputerstudy.testmvc.vo;
 
-import com.lcomputerstudy.testmvc.service.UserService;
-
 public class Pagination {
-	int userCount;			// user테이블에 등록 된 총 user 수
+	int count;			// user테이블에 등록 된 총 user 수
 	int page;				// 현재 페이지 번호
 	int pageNum;			// userCount / page = 화면에 나타낼 user index 번호
 	int startPage;			// pagination의 시작(ex1,6,11)
@@ -13,28 +11,25 @@ public class Pagination {
 	int nextPage;			// pagination의 다음 목록
 	public static final int pageUnit=5;		// 한번에 볼러 올 pagination 수
 	public static final int perPage=3;		// 한번에 불러 올 userCount 수
-	UserService userService = null;
 	
 	public Pagination() {
 		
 	}
-	public Pagination(int page) {
-		this.page = page;
-		userService = UserService.getInstance();
-		userCount = userService.getUsersCount();
-		startPage = ((page-1) / pageUnit) * pageUnit + 1;
-		lastPage = (int)Math.ceil(userCount / (float)perPage);
-		endPage = startPage + pageUnit - 1;
-		endPage = endPage < lastPage ? endPage : lastPage;
-		prevPage = (endPage - pageUnit);
-		nextPage = (startPage + pageUnit);
+	public void init() {
+		pageNum = (page-1)*perPage;		//rowpagenum
+		startPage = ((page-1) / pageUnit) * pageUnit + 1;  // ex) 1,6,11...
+		lastPage = (int)Math.ceil(count / (float)perPage);	//제일 마지막페이지
+		endPage = startPage + pageUnit - 1;		// ex) 5,10,15...
+		endPage = endPage < lastPage ? endPage : lastPage;		//정보가 얼마 없을때를 대비
+		prevPage = (startPage - pageUnit);		//5개 나오는 페이지에서 제일 첫번째꺼 ex)1,6,11...에서 6이면 prevPage는 1
+		nextPage = (startPage + pageUnit);		//5개 나오는 페이지에서 제일 첫번째꺼 ex)1,6,11...에서 6이면 nextPage는 11
 	}
 	
-	public int getUserCount() {
-		return userCount;
+	public int getCount() {
+		return count;
 	}
-	public void setUserCount(int userCount) {
-		this.userCount = userCount;
+	public void setCount(int count) {
+		this.count = count;
 	}
 	public int getPage() {
 		return page;

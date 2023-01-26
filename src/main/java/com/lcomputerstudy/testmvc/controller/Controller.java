@@ -35,6 +35,8 @@ public class Controller extends HttpServlet {
 		User user = null;
 		
 		int page = 1;
+		int count = 0;
+		Pagination pagination = null;
 		
 		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
@@ -46,8 +48,14 @@ public class Controller extends HttpServlet {
 					page = Integer.parseInt(reqPage);
 					
 				userService = UserService.getInstance();
-				ArrayList<User> list = userService.getUsers(page);
-				Pagination pagination = new Pagination(page);
+				count = userService.getUsersCount();
+				
+				pagination = new Pagination();
+				pagination.setPage(page);
+				pagination.setCount(count);
+				pagination.init();
+				
+				ArrayList<User> list = userService.getUsers(pagination);
 				
 				request.setAttribute("list", list);
 				request.setAttribute("pagination", pagination);
