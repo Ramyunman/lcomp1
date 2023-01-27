@@ -147,7 +147,7 @@ public class Controller extends HttpServlet {
 				break;
 			case "/logout.do":
 				session = request.getSession();
-				session.invalidate();
+				session.invalidate();		//세션 무효화
 				view = "user/login";
 				break;
 			case "/access-denied.do":
