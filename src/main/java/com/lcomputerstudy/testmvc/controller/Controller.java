@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.lcomputerstudy.testmvc.service.UserService;
 import com.lcomputerstudy.testmvc.vo.Pagination;
@@ -30,6 +31,11 @@ public class Controller extends HttpServlet {
 		String contextPath = request.getContextPath();
 		String command = requestURI.substring(contextPath.length());
 		String view = null;
+		String id = null;		//login
+		String pw = null;		//login
+		HttpSession session = null;		//login
+		command = checkSession(request, response, command);		//권한
+		
 		
 		UserService userService = null; 
 		User user = null;
@@ -37,10 +43,7 @@ public class Controller extends HttpServlet {
 		int page = 1;
 		int count = 0;
 		Pagination pagination = null;
-		
-		response.setContentType("text/html; charset=utf-8");
-		request.setCharacterEncoding("utf-8");
-		
+			
 		switch (command) {
 			case "/user-list.do":
 				String reqPage = request.getParameter("page");
@@ -118,11 +121,67 @@ public class Controller extends HttpServlet {
 				user = userService.deleteUser(user);
 				view = "user/delete";
 				break;
+			case "/user-login.do":
+				view = "user/login";
+				break;
+			case "/user-login-process.do":
+				id = request.getParameter("login_id");
+				pw = request.getParameter("login_password");
+				
+				userService = UserService.getInstance();
+				user = userService.loginUser(id,pw);
+				
+				if(user != null) {
+					session = request.getSession();
+//					session.setAttribute("u_idx", user.getU_idx());
+//					session.setAttribute("u_id", user.getU_id());
+//					session.setAttribute("u_pw", user.getU_pw());
+//					session.setAttribute("u_name", user.getU_name());
+					session.setAttribute("user", user);
+					
+					view = "user/login-result";
+				} else {
+					view = "user/login-fail";
+				}
+				
+				break;
+			case "/logout.do":
+				session = request.getSession();
+				session.invalidate();
+				view = "user/login";
+				break;
+			case "/access-denied.do":
+				view = "user/access-denied";
+				break;
+				
 				
 		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher(view + ".jsp");
 		rd.forward(request, response);
+	}
+
+	String checkSession(HttpServletRequest request, HttpServletResponse response, String command) {
+		HttpSession session = request.getSession();
+		
+		String[] authList = {
+				"/user-list.do"
+				, "/user-insert.do"
+				, "/user-insert-process.do"
+				, "/user-detail.do"
+				, "/user-edit.do"
+				, "/user-edit-process.do"
+				, "/logout.do"
+		};
+		
+		for (String item : authList) {
+			if (item.equals(command)) {
+				if (session.getAttribute("user") == null) {
+					command = "/access-denied.do";
+				}
+			}
+		}
+		return command;
 	}
 	
 

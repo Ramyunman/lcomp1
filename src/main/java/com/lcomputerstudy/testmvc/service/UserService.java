@@ -41,10 +41,13 @@ public class UserService {
 
 	public void updateUser(User user) {		//01-19
 		dao.updateUser(user);
-		
 	}
 
 	public int getUsersCount() {
 		return dao.getUsersCount();
+	}
+	
+	public User loginUser(String id, String pw) {
+		return dao.loginUser(id,pw);
 	}
 }
