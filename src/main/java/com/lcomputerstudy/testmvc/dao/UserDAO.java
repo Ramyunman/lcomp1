@@ -40,6 +40,7 @@ public class UserDAO {
 					.append("               ta.*\n")
 					.append("FROM           user ta\n")
 					.append("INNER JOIN      (SELECT @rownum := (SELECT COUNT(*)-?+1 FROM user ta)) tb ON 1=1 \n")
+					.append("ORDER BY u_idx DESC\n")
 					.append("LIMIT          ?, ?\n")
 					.toString();
 			pstmt = conn.prepareStatement(query);

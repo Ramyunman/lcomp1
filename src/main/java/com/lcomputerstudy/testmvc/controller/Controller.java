@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.lcomputerstudy.testmvc.service.BoardService;
 import com.lcomputerstudy.testmvc.service.UserService;
+import com.lcomputerstudy.testmvc.vo.Board;
 import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.User;
 
@@ -38,7 +40,9 @@ public class Controller extends HttpServlet {
 		
 		
 		UserService userService = null; 
-		User user = null;
+		BoardService boardService = null;		//board 추가
+		User user = null;	
+		Board board = null;			//board 추가
 		
 		int page = 1;
 		int count = 0;
@@ -121,10 +125,10 @@ public class Controller extends HttpServlet {
 				user = userService.deleteUser(user);
 				view = "user/delete";
 				break;
-			case "/user-login.do":
+			case "/user-login.do":		//login
 				view = "user/login";
 				break;
-			case "/user-login-process.do":
+			case "/user-login-process.do":		//login
 				id = request.getParameter("login_id");
 				pw = request.getParameter("login_password");
 				
@@ -153,6 +157,85 @@ public class Controller extends HttpServlet {
 			case "/access-denied.do":
 				view = "user/access-denied";
 				break;
+			////////////////////////////board/////////////////////////////////
+			case "/board-list.do":
+				String reqPage2 = request.getParameter("page");
+				if (reqPage2 != null) 
+					page = Integer.parseInt(reqPage2);
+					
+				boardService = BoardService.getInstance();
+				count = boardService.getBoardsCount();
+				
+				pagination = new Pagination();
+				pagination.setPage(page);
+				pagination.setCount(count);
+				pagination.init();
+				
+				ArrayList<Board> list2 = boardService.getBoards(pagination);
+				
+				request.setAttribute("list", list2);
+				request.setAttribute("pagination", pagination);
+				
+				view = "board/list";
+				break;
+				
+			case "/board-insert.do":			//보여주기
+				view = "board/insert";
+				break;
+				
+			case "/board-insert-process.do":		//실제 저장하는 코드 -> 있는 이유 : 이게 있어야 저장이 된다. 위에 하나만 있으면 시작하자마자 바로 저장이 되어서 입력할수가 없다.
+				board = new Board();
+				board.setB_title(request.getParameter("title"));
+				board.setB_content(request.getParameter("content"));
+				board.setB_views(request.getParameter("views"));
+				board.setB_writer(request.getParameter("writer"));
+				board.setB_date(request.getParameter("year") + "-" + request.getParameter("month") + "-" + request.getParameter("day"));
+				
+				boardService = BoardService.getInstance();
+				boardService.insertBoard(board);
+				view = "board/insert-result";
+				break;
+				
+			case "/board-detail.do":		//01-18
+				board = new Board();		//user라는 저장공간을 만들어 놓은 것이다. 새로운 인스턴스를 만든게 아니라.
+				board.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
+				boardService = BoardService.getInstance();
+				board = boardService.detailBoard(board);
+				request.setAttribute("board", board);
+				view = "board/detail";
+				break;
+				
+			case "/board-update.do":		//01-19
+				board = new Board();		//user라는 저장공간을 만들어 놓은 것이다. 새로운 인스턴스를 만든게 아니라.
+				board.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
+				boardService = BoardService.getInstance();
+				board = boardService.detailBoard(board);
+				request.setAttribute("board", board);
+				view = "board/update";
+				break;
+			
+			case "/board-update-process.do":		//01-19
+				board = new Board();
+				board.setB_title(request.getParameter("title"));
+				board.setB_content(request.getParameter("content"));
+				board.setB_views(request.getParameter("views"));
+				board.setB_writer(request.getParameter("writer"));
+				board.setB_date(request.getParameter("year") + "-" + request.getParameter("month") + "-" + request.getParameter("day"));
+				board.setB_dateArr(board.getB_date().split("-"));	//1
+				board.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
+				boardService = BoardService.getInstance();
+				boardService.updateBoard(board);
+				view = "board/update-result";
+				break; 
+				
+			case "/board-delete.do":		//01-19
+				board = new Board();
+				board.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
+				boardService = BoardService.getInstance();
+				board = boardService.deleteBoard(board);
+				view = "board/delete";
+				break;
+				
 				
 				
 		}
@@ -161,7 +244,7 @@ public class Controller extends HttpServlet {
 		rd.forward(request, response);
 	}
 
-	String checkSession(HttpServletRequest request, HttpServletResponse response, String command) {
+	String checkSession(HttpServletRequest request, HttpServletResponse response, String command) {		//권한
 		HttpSession session = request.getSession();
 		
 		String[] authList = {
