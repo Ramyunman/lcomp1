@@ -197,7 +197,7 @@ public class Controller extends HttpServlet {
 				break;
 				
 			case "/board-detail.do":		//01-18
-				board = new Board();		//user라는 저장공간을 만들어 놓은 것이다. 새로운 인스턴스를 만든게 아니라.
+				board = new Board();		//board라는 저장공간을 만들어 놓은 것이다. 새로운 인스턴스를 만든게 아니라.
 				board.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
 				boardService = BoardService.getInstance();
 				board = boardService.detailBoard(board);
@@ -206,7 +206,7 @@ public class Controller extends HttpServlet {
 				break;
 				
 			case "/board-update.do":		//01-19
-				board = new Board();		//user라는 저장공간을 만들어 놓은 것이다. 새로운 인스턴스를 만든게 아니라.
+				board = new Board();		//board라는 저장공간을 만들어 놓은 것이다. 새로운 인스턴스를 만든게 아니라.
 				board.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
 				boardService = BoardService.getInstance();
 				board = boardService.detailBoard(board);
