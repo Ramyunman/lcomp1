@@ -59,7 +59,7 @@ public class Controller extends HttpServlet {
 				
 				pagination = new Pagination();
 				pagination.setPage(page);
-				pagination.setCount(count);
+				pagination.setUserCount(count);
 				pagination.init();
 				
 				ArrayList<User> list = userService.getUsers(pagination);
@@ -168,7 +168,7 @@ public class Controller extends HttpServlet {
 				
 				pagination = new Pagination();
 				pagination.setPage(page);
-				pagination.setCount(count);
+				pagination.setUserCount(count);
 				pagination.init();
 				
 				ArrayList<Board> list2 = boardService.getBoards(pagination);

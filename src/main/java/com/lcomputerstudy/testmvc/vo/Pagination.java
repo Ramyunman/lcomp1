@@ -1,9 +1,9 @@
 package com.lcomputerstudy.testmvc.vo;
 
 public class Pagination {
-	int userCount;				// user테이블에 등록 된 총 user 수
+	int userCount;			// user테이블에 등록 된 총 user 수
 	int page;				// 현재 페이지 번호
-	int pageNum;			// userCount / page = 화면에 나타낼 user index, 번호 row pageNum
+	int pageNum;			// userCount / page = 화면에 나타낼 user index, 
 	int startPage;			// pagination의 시작(ex1,6,11)
 	int endPage;			// pagination의 끝(ex5,10,15)
 	int lastPage;			// (userCount/화면에 표시할 갯수), pagination 마지막 번호
@@ -16,7 +16,7 @@ public class Pagination {
 		
 	}
 	public void init() {
-		pageNum = (page-1)*perPage;		//row pagenum
+		pageNum = (page-1)*perPage;		//userCount - pageNum이 나오는 숫자에서부터 rownum이 시작돼 user 인덱스를 불러온다.
 		startPage = ((page-1) / pageUnit) * pageUnit + 1;  // ex) 1,6,11...
 		lastPage = (int)Math.ceil(userCount / (float)perPage);	//제일 마지막페이지
 		endPage = startPage + pageUnit - 1;		// ex) 5,10,15...
@@ -24,8 +24,8 @@ public class Pagination {
 		prevPage = (startPage - pageUnit);		//5개 나오는 페이지에서 제일 첫번째꺼 ex)1,6,11...에서 6이면 prevPage는 1
 		nextPage = (startPage + pageUnit);		//5개 나오는 페이지에서 제일 첫번째꺼 ex)1,6,11...에서 6이면 nextPage는 11
 	}
-	
-	public int getUsersCount() {
+		
+	public int getUserCount() {
 		return userCount;
 	}
 	public void setUserCount(int userCount) {
