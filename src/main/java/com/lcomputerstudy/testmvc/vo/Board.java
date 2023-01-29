@@ -9,6 +9,7 @@ public class Board {
 	private String b_date;
 	private String[] b_dateArr;
 	private int rownum;
+	
 	public int getB_idx() {
 		return b_idx;
 	}
