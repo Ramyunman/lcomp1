@@ -49,7 +49,7 @@
 <h1>게시글 목록</h1>
 	<table>
 		<tr>
-			<td colspan="3">전체 게시글 수: ${pagination.count }</td>
+			<td colspan="3">전체 게시글 수: ${pagination.userCount }</td>
 		<tr>
 			<th>No</th>
 			<th>제목</th>

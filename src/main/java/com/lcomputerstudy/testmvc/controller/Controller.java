@@ -236,6 +236,10 @@ public class Controller extends HttpServlet {
 				view = "board/delete";
 				break;
 				
+			case "/board-reply.do":			//답글 보기
+				view = "board/reply";
+				break;
+				
 				
 				
 		}

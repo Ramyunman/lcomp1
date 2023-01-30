@@ -63,5 +63,6 @@
 			</td>
 		</tr>
 	</table>
+	<a href="/lcomp1/board-reply.do">답글 등록</a>
 </body>
 </html>

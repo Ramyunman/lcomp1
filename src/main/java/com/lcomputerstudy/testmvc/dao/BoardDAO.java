@@ -85,7 +85,7 @@ public class BoardDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date) values(?,?,?,?,?)";
+			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values(?,?,?,?,?,0,1,0)";		//답글을 달기 위해 원글 등록 방식을 바꿨다
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getB_title());
 			pstmt.setString(2, board.getB_content());
@@ -93,6 +93,12 @@ public class BoardDAO {
 			pstmt.setString(4, board.getB_writer());
 			pstmt.setString(5, board.getB_date());
 			pstmt.executeUpdate();
+			pstmt.close();
+			pstmt = conn.prepareStatement("update group = last_insert_id() where b_idx = last_insert_id()");		//답글을 달기 위해 원글 등록 방식을 바꿨다
+			pstmt.executeUpdate();
+			
+		
+
 		} catch (Exception ex) {
 			System.out.println("SQLException : " + ex.getMessage());
 		} finally {
