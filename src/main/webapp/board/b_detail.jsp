@@ -63,6 +63,6 @@
 			</td>
 		</tr>
 	</table>
-	<a href="/lcomp1/board-reply.do">답글 등록</a>
+	<a href="/lcomp1/board-reply.do?b_group=${board.b_group} && b_order=${board.b_order} && b_depth=${board.b_depth}">답글 등록</a>
 </body>
 </html>

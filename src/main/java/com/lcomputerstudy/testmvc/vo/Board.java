@@ -9,6 +9,9 @@ public class Board {
 	private String b_date;
 	private String[] b_dateArr;
 	private int rownum;
+	private int b_group;	//답글
+	private int b_order;	//답글
+	private int b_depth;	//답글
 	
 	public int getB_idx() {
 		return b_idx;
@@ -57,6 +60,24 @@ public class Board {
 	}
 	public void setRownum(int rownum) {
 		this.rownum = rownum;
+	}
+	public int getB_group() {
+		return b_group;
+	}
+	public void setB_group(int b_group) {
+		this.b_group = b_group;
+	}
+	public int getB_order() {
+		return b_order;
+	}
+	public void setB_order(int b_order) {
+		this.b_order = b_order;
+	}
+	public int getB_depth() {
+		return b_depth;
+	}
+	public void setB_depth(int b_depth) {
+		this.b_depth = b_depth;
 	}
 	
 	

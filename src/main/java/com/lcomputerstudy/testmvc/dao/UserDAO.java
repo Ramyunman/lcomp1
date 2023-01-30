@@ -18,7 +18,7 @@ public class UserDAO {
 		
 	}
 	
-	public static UserDAO getInstance() {
+	public static UserDAO getInstance() {	
 		if(dao == null) {
 			dao = new UserDAO();
 		}
