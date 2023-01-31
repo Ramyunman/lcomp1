@@ -237,17 +237,24 @@ public class Controller extends HttpServlet {
 				break;
 				
 			case "/board-reply.do":			//답글 보기
+				board = new Board();
+				board.setB_group(Integer.parseInt(request.getParameter("b_group")));
+				board.setB_order(Integer.parseInt(request.getParameter("b_order")));
+				board.setB_depth(Integer.parseInt(request.getParameter("b_depth")));
+				request.setAttribute("board", board);
 				view = "board/b_reply";
 				break;
-			case "/board-reply-process.do":		//내용,작성자,작성일자?
+				
+			case "/board-reply-insert-process.do":		//내용,작성자,작성일자?
 				board = new Board();
-				board.setB_group(Integer.parseInt(request.getParameter("group")));
-				board.setB_group(Integer.parseInt(request.getParameter("order")));
-				board.setB_group(Integer.parseInt(request.getParameter("depth")));
+				board.setB_group(Integer.parseInt(request.getParameter("b_group")));
+				board.setB_order(Integer.parseInt(request.getParameter("b_order"))+1);
+				board.setB_depth(Integer.parseInt(request.getParameter("b_depth"))+1);
 				
 				boardService = BoardService.getInstance();
-				boardService.insertBoard(board);
-				view = "board/b_reply-result";
+				board = boardService.replyInsert(board);
+				
+				view = "board/b_reply-insert-result";
 				break;
 				
 				

@@ -133,7 +133,11 @@ public class BoardDAO {
 				resultBoard.setB_views(rs.getString("b_views"));
 				resultBoard.setB_writer(rs.getString("b_writer"));
 				resultBoard.setB_date(rs.getString("b_date"));
-				resultBoard.setB_dateArr(resultBoard.getB_date().split("-"));		// 배열이 필요한 이유는 u_tel에 저장되어 있는 것을 3군데로 나누기 위한 배열 즉 담은 공간 3개 바구니를 만든것과 같은 것이다.
+				resultBoard.setB_dateArr(resultBoard.getB_date().split("-"));		
+				resultBoard.setB_group(Integer.parseInt(rs.getString("b_group")));		//답글 때문에 추가
+				resultBoard.setB_order(Integer.parseInt(rs.getString("b_order")));		//답글 때문에 추가
+				resultBoard.setB_depth(Integer.parseInt(rs.getString("b_depth")));		//답글 때문에 추가
+				
 				
 			}
 		} catch (Exception e) {
@@ -177,9 +181,7 @@ public class BoardDAO {
 		}
 		
 	}
-	
 
-	
 	public Board deleteBoard(Board board) {		// 삭제
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -223,7 +225,7 @@ public class BoardDAO {
 				count = rs.getInt("count");
 			}
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		} finally {
 			try {
 				if (rs != null) rs.close();
@@ -236,5 +238,41 @@ public class BoardDAO {
 		return count;
 		
 	}
+	
+	public void replyInsert(Board board) {		// 답글 2023-01-31
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values(?,?,?,?,now(),?,?,?)";		//답글을 달기 위해 원글 등록 방식을 바꿨다
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getB_title());
+			pstmt.setString(2, board.getB_content());
+			pstmt.setString(3, board.getB_views());
+			pstmt.setString(4, board.getB_writer());
+			pstmt.setInt(5, board.getB_group());
+			pstmt.setInt(6, board.getB_order());
+			pstmt.setInt(7, board.getB_depth());
+			pstmt.executeUpdate();
+			pstmt.close();
+			pstmt = conn.prepareStatement("update group = last_insert_id() where b_idx = last_insert_id()");		//답글을 달기 위해 원글 등록 방식을 바꿨다
+			pstmt.executeUpdate();
+			
+		
+
+		} catch (Exception ex) {
+			System.out.println("SQLException : " + ex.getMessage());
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
 	
 }

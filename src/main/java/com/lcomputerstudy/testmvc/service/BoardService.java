@@ -42,4 +42,7 @@ public class BoardService {
 		return dao.getBoardsCount();
 	}
 
+	public Board replyInsert(Board board) {		//답글
+		dao.replyInsert(board);
+	}
 }
