@@ -189,8 +189,7 @@ public class Controller extends HttpServlet {
 				board.setB_content(request.getParameter("content"));
 				board.setB_views(request.getParameter("views"));
 				board.setB_writer(request.getParameter("writer"));
-				board.setB_date(request.getParameter("year") + "-" + request.getParameter("month") + "-" + request.getParameter("day"));
-				
+								
 				boardService = BoardService.getInstance();
 				boardService.insertBoard(board);
 				view = "board/b_insert-result";
@@ -247,12 +246,17 @@ public class Controller extends HttpServlet {
 				
 			case "/board-reply-insert-process.do":		//내용,작성자,작성일자?
 				board = new Board();
+				board.setB_title(request.getParameter("title"));
+				board.setB_content(request.getParameter("content"));
+				board.setB_views(request.getParameter("views"));
+				board.setB_writer(request.getParameter("writer"));
+				board.setB_date(request.getParameter("year") + "-" + request.getParameter("month") + "-" + request.getParameter("day"));
 				board.setB_group(Integer.parseInt(request.getParameter("b_group")));
 				board.setB_order(Integer.parseInt(request.getParameter("b_order"))+1);
 				board.setB_depth(Integer.parseInt(request.getParameter("b_depth"))+1);
 				
 				boardService = BoardService.getInstance();
-				board = boardService.replyInsert(board);
+				boardService.replyInsert(board);
 				
 				view = "board/b_reply-insert-result";
 				break;

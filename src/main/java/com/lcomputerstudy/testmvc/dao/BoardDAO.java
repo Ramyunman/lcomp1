@@ -60,12 +60,12 @@ public class BoardDAO {
 				board.setB_views(rs.getString("b_views"));
 				board.setB_writer(rs.getString("b_writer"));
 				board.setB_date(rs.getString("b_date"));
-				board.setB_dateArr(board.getB_date().split("-"));		//전화번호 3개로 쪼개기
+				//board.setB_dateArr(board.getB_date().split("-"));		//전화번호 3개로 쪼개기
 				
 				list.add(board);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();		//예외 설정을 하자!!!
+			e.printStackTrace();		
 		} finally {
 			try {
 				if(rs != null) rs.close();
@@ -85,30 +85,29 @@ public class BoardDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values(?,?,?,?,?,0,1,0)";		//답글을 달기 위해 원글 등록 방식을 바꿨다
+			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values (?,?,?,?,now(),0,1,0)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getB_title());
 			pstmt.setString(2, board.getB_content());
 			pstmt.setString(3, board.getB_views());
 			pstmt.setString(4, board.getB_writer());
-			pstmt.setString(5, board.getB_date());
 			pstmt.executeUpdate();
 			pstmt.close();
-			pstmt = conn.prepareStatement("update group = last_insert_id() where b_idx = last_insert_id()");		//답글을 달기 위해 원글 등록 방식을 바꿨다
-			pstmt.executeUpdate();
 			
+			pstmt = conn.prepareStatement("UPDATE board SET b_group = last_insert_id() WHERE b_idx = last_insert_id()");
+			pstmt.executeUpdate();
 		
-
 		} catch (Exception ex) {
 			System.out.println("SQLException : " + ex.getMessage());
 		} finally {
 			try {
-				if (pstmt != null) pstmt.close();
-				if (conn != null) conn.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
+		
 	}
 	
 	
@@ -133,11 +132,10 @@ public class BoardDAO {
 				resultBoard.setB_views(rs.getString("b_views"));
 				resultBoard.setB_writer(rs.getString("b_writer"));
 				resultBoard.setB_date(rs.getString("b_date"));
-				resultBoard.setB_dateArr(resultBoard.getB_date().split("-"));		
-				resultBoard.setB_group(Integer.parseInt(rs.getString("b_group")));		//답글 때문에 추가
-				resultBoard.setB_order(Integer.parseInt(rs.getString("b_order")));		//답글 때문에 추가
-				resultBoard.setB_depth(Integer.parseInt(rs.getString("b_depth")));		//답글 때문에 추가
-				
+				//resultBoard.setB_dateArr(resultBoard.getB_date().split("-"));		
+				resultBoard.setB_group(Integer.parseInt(rs.getString("b_group")));		
+				resultBoard.setB_order(Integer.parseInt(rs.getString("b_order")));		
+				resultBoard.setB_depth(Integer.parseInt(rs.getString("b_depth")));		
 				
 			}
 		} catch (Exception e) {
@@ -239,13 +237,13 @@ public class BoardDAO {
 		
 	}
 	
-	public void replyInsert(Board board) {		// 답글 2023-01-31
+	public void replyInsert(Board board) {		// 답글 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values(?,?,?,?,now(),?,?,?)";		//답글을 달기 위해 원글 등록 방식을 바꿨다
+			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values(?,?,?,?,now(),?,?,?)";		
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getB_title());
 			pstmt.setString(2, board.getB_content());
@@ -256,7 +254,6 @@ public class BoardDAO {
 			pstmt.setInt(7, board.getB_depth());
 			pstmt.executeUpdate();
 			pstmt.close();
-			pstmt = conn.prepareStatement("update group = last_insert_id() where b_idx = last_insert_id()");		//답글을 달기 위해 원글 등록 방식을 바꿨다
 			pstmt.executeUpdate();
 			
 		
