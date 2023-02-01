@@ -131,8 +131,7 @@ public class BoardDAO {
 				resultBoard.setB_content(rs.getString("b_content"));
 				resultBoard.setB_views(rs.getString("b_views"));
 				resultBoard.setB_writer(rs.getString("b_writer"));
-				resultBoard.setB_date(rs.getString("b_date"));
-				//resultBoard.setB_dateArr(resultBoard.getB_date().split("-"));		
+				resultBoard.setB_date(rs.getString("b_date"));	
 				resultBoard.setB_group(Integer.parseInt(rs.getString("b_group")));		
 				resultBoard.setB_order(Integer.parseInt(rs.getString("b_order")));		
 				resultBoard.setB_depth(Integer.parseInt(rs.getString("b_depth")));		
@@ -249,12 +248,16 @@ public class BoardDAO {
 			pstmt.setString(2, board.getB_content());
 			pstmt.setString(3, board.getB_views());
 			pstmt.setString(4, board.getB_writer());
-			pstmt.setInt(5, board.getB_group());
-			pstmt.setInt(6, board.getB_order());
-			pstmt.setInt(7, board.getB_depth());
+			pstmt.setString(5, board.getB_date());
+			pstmt.setString(6, String.valueOf(board.getB_group()));
+			pstmt.setString(7, String.valueOf(board.getB_order()));
+			pstmt.setString(8, String.valueOf(board.getB_depth()));
+
 			pstmt.executeUpdate();
 			pstmt.close();
-			pstmt.executeUpdate();
+	
+//			pstmt = conn.prepareStatement("UPDATE board SET b_order = () WHERE b_idx = last_insert_id()");
+//			pstmt.executeUpdate();
 			
 		
 

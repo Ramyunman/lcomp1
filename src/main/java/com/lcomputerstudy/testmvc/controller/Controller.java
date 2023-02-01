@@ -235,29 +235,30 @@ public class Controller extends HttpServlet {
 				view = "board/b_delete";
 				break;
 				
-			case "/board-reply.do":			//답글 보기
-				board = new Board();
-				board.setB_group(Integer.parseInt(request.getParameter("b_group")));
-				board.setB_order(Integer.parseInt(request.getParameter("b_order")));
-				board.setB_depth(Integer.parseInt(request.getParameter("b_depth")));
-				request.setAttribute("board", board);
-				view = "board/b_reply";
+			case "/board-reply-insert.do":			//답글 보기
+			/*	board = new Board();
+				board.setB_title(request.getParameter("title"));
+				board.setB_content(request.getParameter("content"));
+				board.setB_views(request.getParameter("views"));
+				board.setB_writer(request.getParameter("writer")); 
+				
+				request.setAttribute("board", board);	*/
+				view = "board/b_reply-insert";
 				break;
 				
-			case "/board-reply-insert-process.do":		//내용,작성자,작성일자?
+			case "/board-reply-insert-process.do":		
 				board = new Board();
 				board.setB_title(request.getParameter("title"));
 				board.setB_content(request.getParameter("content"));
 				board.setB_views(request.getParameter("views"));
 				board.setB_writer(request.getParameter("writer"));
-				board.setB_date(request.getParameter("year") + "-" + request.getParameter("month") + "-" + request.getParameter("day"));
 				board.setB_group(Integer.parseInt(request.getParameter("b_group")));
-				board.setB_order(Integer.parseInt(request.getParameter("b_order"))+1);
-				board.setB_depth(Integer.parseInt(request.getParameter("b_depth"))+1);
+				board.setB_order(Integer.parseInt(request.getParameter("b_order")) + Integer.valueOf(1));
+				board.setB_depth(Integer.parseInt(request.getParameter("b_depth")) + Integer.valueOf(1));
 				
 				boardService = BoardService.getInstance();
 				boardService.replyInsert(board);
-				
+				request.setAttribute("board", board);
 				view = "board/b_reply-insert-result";
 				break;
 				
