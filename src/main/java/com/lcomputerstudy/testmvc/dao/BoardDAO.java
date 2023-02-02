@@ -47,7 +47,7 @@ public class BoardDAO {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, pageNum);
 			pstmt.setInt(2, pageNum);
-			pstmt.setInt(3, Pagination.perPage);
+			pstmt.setInt(3, 10);
 			rs = pstmt.executeQuery();
 			list = new ArrayList<Board>();
 			
@@ -242,6 +242,7 @@ public class BoardDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
+			/*
 			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values (?,?,0,?,now(),?,?,?)";		
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getB_title());
@@ -250,13 +251,25 @@ public class BoardDAO {
 			pstmt.setString(4, String.valueOf(board.getB_group()));
 			pstmt.setString(5, String.valueOf(board.getB_order()));
 			pstmt.setString(6, String.valueOf(board.getB_depth()));
-			pstmt.close();
+			*/
 			
-			sql = "update board set b_order = b_order+1 where b_group = ? and b_order >= ? and b_idx != last_insert_id()";
-			pstmt = conn.prepareStatement(sql);
+			//sql = "update board set b_order = b_order+1 where b_group = ? and b_order >= ? and b_idx != last_insert_id()";
+			String sql2 = "update board set b_order = b_order+1 where b_group = ? and b_order > ?";
+			pstmt = conn.prepareStatement(sql2);
 			pstmt.setInt(1, board.getB_group());
-			pstmt.setInt(2, board.getB_order());
+			pstmt.setInt(2, board.getB_order()); 	
 			pstmt.executeUpdate();
+			
+			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values (?,?,0,?,now(),?,?,?)";		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getB_title());
+			pstmt.setString(2, board.getB_content());
+			pstmt.setString(3, board.getB_writer());
+			pstmt.setInt(4, board.getB_group());
+			pstmt.setInt(5, board.getB_order() + 1);
+			pstmt.setInt(6, board.getB_depth() + 1);
+			pstmt.executeUpdate();
+			
 				
 		} catch (Exception ex) {
 			System.out.println("SQLException : " + ex.getMessage());
