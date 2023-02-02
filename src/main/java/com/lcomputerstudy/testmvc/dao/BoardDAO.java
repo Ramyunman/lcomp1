@@ -242,25 +242,22 @@ public class BoardDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values(?,?,?,?,now(),?,?,?)";		
+			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values (?,?,0,?,now(),?,?,?)";		
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getB_title());
 			pstmt.setString(2, board.getB_content());
-			pstmt.setString(3, board.getB_views());
-			pstmt.setString(4, board.getB_writer());
-			pstmt.setString(5, board.getB_date());
-			pstmt.setString(6, String.valueOf(board.getB_group()));
-			pstmt.setString(7, String.valueOf(board.getB_order()));
-			pstmt.setString(8, String.valueOf(board.getB_depth()));
-
-			pstmt.executeUpdate();
+			pstmt.setString(3, board.getB_writer());
+			pstmt.setString(4, String.valueOf(board.getB_group()));
+			pstmt.setString(5, String.valueOf(board.getB_order()));
+			pstmt.setString(6, String.valueOf(board.getB_depth()));
 			pstmt.close();
-	
-//			pstmt = conn.prepareStatement("UPDATE board SET b_order = () WHERE b_idx = last_insert_id()");
-//			pstmt.executeUpdate();
 			
-		
-
+			sql = "update board set b_order = b_order+1 where b_group = ? and b_order >= ? and b_idx != last_insert_id()";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, board.getB_group());
+			pstmt.setInt(2, board.getB_order());
+			pstmt.executeUpdate();
+				
 		} catch (Exception ex) {
 			System.out.println("SQLException : " + ex.getMessage());
 		} finally {

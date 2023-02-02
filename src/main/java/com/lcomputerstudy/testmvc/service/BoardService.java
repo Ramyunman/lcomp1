@@ -41,7 +41,6 @@ public class BoardService {
 	public int getBoardsCount() {
 		return dao.getBoardsCount();
 	}
-
 	public void replyInsert(Board board) {		//답글
 		dao.replyInsert(board);
 	}

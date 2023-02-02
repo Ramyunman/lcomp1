@@ -236,13 +236,12 @@ public class Controller extends HttpServlet {
 				break;
 				
 			case "/board-reply-insert.do":			//답글 보기
-			/*	board = new Board();
-				board.setB_title(request.getParameter("title"));
-				board.setB_content(request.getParameter("content"));
-				board.setB_views(request.getParameter("views"));
-				board.setB_writer(request.getParameter("writer")); 
+				board = new Board();
+				board.setB_group(Integer.parseInt(request.getParameter("b_group")));
+				board.setB_order(Integer.parseInt(request.getParameter("b_order")));
+				board.setB_depth(Integer.parseInt(request.getParameter("b_depth")));
 				
-				request.setAttribute("board", board);	*/
+				request.setAttribute("board", board);	
 				view = "board/b_reply-insert";
 				break;
 				
@@ -250,15 +249,14 @@ public class Controller extends HttpServlet {
 				board = new Board();
 				board.setB_title(request.getParameter("title"));
 				board.setB_content(request.getParameter("content"));
-				board.setB_views(request.getParameter("views"));
 				board.setB_writer(request.getParameter("writer"));
 				board.setB_group(Integer.parseInt(request.getParameter("b_group")));
-				board.setB_order(Integer.parseInt(request.getParameter("b_order")) + Integer.valueOf(1));
-				board.setB_depth(Integer.parseInt(request.getParameter("b_depth")) + Integer.valueOf(1));
+				board.setB_order(Integer.parseInt(request.getParameter("b_order"))+1);
+				board.setB_depth(Integer.parseInt(request.getParameter("b_depth"))+1);
 				
 				boardService = BoardService.getInstance();
 				boardService.replyInsert(board);
-				request.setAttribute("board", board);
+			//	request.setAttribute("board", board);
 				view = "board/b_reply-insert-result";
 				break;
 				
