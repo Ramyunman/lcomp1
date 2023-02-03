@@ -41,7 +41,7 @@ public class BoardDAO {
 					.append("               t_board.*\n")
 					.append("FROM           board t_board\n")
 					.append("INNER JOIN      (SELECT @rownum := (SELECT COUNT(*)-?+1 FROM board t_board)) tc ON 1=1 \n")
-					.append("ORDER BY b_idx DESC\n")
+					.append("ORDER BY b_group DESC, b_order ASC\n")
 					.append("LIMIT          ?, ?\n")
 					.toString();
 			pstmt = conn.prepareStatement(query);
@@ -60,6 +60,9 @@ public class BoardDAO {
 				board.setB_views(rs.getString("b_views"));
 				board.setB_writer(rs.getString("b_writer"));
 				board.setB_date(rs.getString("b_date"));
+				board.setB_group(rs.getInt("b_group"));
+				board.setB_group(rs.getInt("b_order"));
+				board.setB_group(rs.getInt("b_depth"));
 				//board.setB_dateArr(board.getB_date().split("-"));		//전화번호 3개로 쪼개기
 				
 				list.add(board);
@@ -254,13 +257,14 @@ public class BoardDAO {
 			*/
 			
 			//sql = "update board set b_order = b_order+1 where b_group = ? and b_order >= ? and b_idx != last_insert_id()";
-			String sql2 = "update board set b_order = b_order+1 where b_group = ? and b_order > ?";
-			pstmt = conn.prepareStatement(sql2);
+			String sql = "update board set b_order = b_order+1 where b_group = ? and b_order > ?";
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, board.getB_group());
 			pstmt.setInt(2, board.getB_order()); 	
 			pstmt.executeUpdate();
+			pstmt.close();
 			
-			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values (?,?,0,?,now(),?,?,?)";		
+			sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values (?,?,0,?,now(),?,?,?)";		
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getB_title());
 			pstmt.setString(2, board.getB_content());

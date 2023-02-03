@@ -259,7 +259,6 @@ public class Controller extends HttpServlet {
 				
 				boardService = BoardService.getInstance();
 				boardService.replyInsert(board);
-			//	request.setAttribute("board", board);
 				view = "board/b_reply-insert-result";
 				break;
 				
