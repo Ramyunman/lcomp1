@@ -61,8 +61,8 @@ public class BoardDAO {
 				board.setB_writer(rs.getString("b_writer"));
 				board.setB_date(rs.getString("b_date"));
 				board.setB_group(rs.getInt("b_group"));
-				board.setB_group(rs.getInt("b_order"));
-				board.setB_group(rs.getInt("b_depth"));
+				board.setB_order(rs.getInt("b_order"));
+				board.setB_depth(rs.getInt("b_depth"));
 				//board.setB_dateArr(board.getB_date().split("-"));		//전화번호 3개로 쪼개기
 				
 				list.add(board);
