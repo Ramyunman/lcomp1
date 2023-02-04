@@ -60,19 +60,22 @@
 				<td><a href="/lcomp1/board-detail.do?b_idx=${board.b_idx}">${board.rownum}</a></td>
 				<c:choose>
 					<c:when test="${board.b_depth > 0  }">
-						<td style="text-align: left;">%nbsp;%nbsp;ㄴ${board.b_title}</td>
+						<td style="text-align: left;"> 
+						
+						<c:forEach var="i" begin="1" end="${board.b_depth}" step="1">
+													&nbsp;
+						</c:forEach>
+						ㄴ${board.b_title}
+						</td>
 					</c:when>
 					<c:when test = "${board.b_depth == 0 }">
 						<td style="text-align: left;">${board.b_title}</td>
 					</c:when>
 				</c:choose>
-				
-				
-		<%-- 	<td style="text-align: left;">
-				ㄴ${board.b_title}</td>			--%>	
+					
 				<td>${board.b_content}</td>
-				<td>${board.b_depth }</td>
-				<td>${board.b_group }</td>
+			
+				
 			</tr>
 		</c:forEach>	
 	</table>

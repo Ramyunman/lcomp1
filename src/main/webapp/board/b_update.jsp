@@ -17,10 +17,7 @@
 	<p> 내용 : <input type="text" name="content" value = ${board.b_content }></p>
 	<p> 조회수 : <input type="text" name="views" value = ${board.b_views }></p>
 	<p> 작성자 : <input type="text" name="writer" value = ${board.b_writer }></p>
-	<p> 작성일자 : <input type="text" maxlength="4" size="4" name="year" value="${board.b_dateArr[0] }"> -
-			   <input type="text" maxlength="4" size="4" name="month" value="${board.b_dateArr[1] }"> -
-			   <input type="text" maxlength="4" size="4" name="day" value="${board.b_dateArr[2] }">
-	</p>
+	<p> 작성일자 : <input type="text" name="date" value = ${board.b_date }></p>
 	
 	<p> <input type="submit" value="수정하기"></p>
 	<a href="/lcomp1/board-list.do"> 목록으로 </a>
