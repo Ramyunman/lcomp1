@@ -257,14 +257,14 @@ public class BoardDAO {
 			*/
 			
 			//sql = "update board set b_order = b_order+1 where b_group = ? and b_order >= ? and b_idx != last_insert_id()";
-			String sql = "update board set b_order = b_order+1 where b_group = ? and b_order > ?";
+			String sql = "update board set b_order = b_order+1 where b_group = ? and b_order > ?";	//원글에 계속 다는거 말고 새로 원글에 답글을 달때
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, board.getB_group());
 			pstmt.setInt(2, board.getB_order()); 	
 			pstmt.executeUpdate();
 			pstmt.close();
 			
-			sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values (?,?,0,?,now(),?,?,?)";		
+			sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values (?,?,0,?,now(),?,?,?)";	//원글에 계속 다는거(사선으로)		
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getB_title());
 			pstmt.setString(2, board.getB_content());
