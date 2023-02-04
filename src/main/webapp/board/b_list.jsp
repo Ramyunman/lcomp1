@@ -63,7 +63,7 @@
 						<td style="text-align: left;"> 
 						
 						<c:forEach var="i" begin="1" end="${board.b_depth}" step="1">
-													&nbsp;
+													&nbsp;&nbsp;
 						</c:forEach>
 						ㄴ${board.b_title}
 						</td>
