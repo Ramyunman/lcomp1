@@ -47,7 +47,7 @@ public class BoardDAO {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, pageNum);
 			pstmt.setInt(2, pageNum);
-			pstmt.setInt(3, 10);
+			pstmt.setInt(3, Pagination.perPage);
 			rs = pstmt.executeQuery();
 			list = new ArrayList<Board>();
 			
@@ -63,7 +63,6 @@ public class BoardDAO {
 				board.setB_group(rs.getInt("b_group"));
 				board.setB_order(rs.getInt("b_order"));
 				board.setB_depth(rs.getInt("b_depth"));
-				//board.setB_dateArr(board.getB_date().split("-"));		//전화번호 3개로 쪼개기
 				
 				list.add(board);
 			}
@@ -88,12 +87,11 @@ public class BoardDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values (?,?,?,?,now(),0,1,0)";
+			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values (?,?,0,?,now(),0,1,0)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getB_title());
 			pstmt.setString(2, board.getB_content());
-			pstmt.setString(3, board.getB_views());
-			pstmt.setString(4, board.getB_writer());
+			pstmt.setString(3, board.getB_writer());
 			pstmt.executeUpdate();
 			pstmt.close();
 			
@@ -154,7 +152,7 @@ public class BoardDAO {
 		return resultBoard;
 	}
 	
-	public void updateUser(Board board) {		// 수정
+	public void updateBoard(Board board) {		// 수정
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		

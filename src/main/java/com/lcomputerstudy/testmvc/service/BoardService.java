@@ -36,7 +36,7 @@ public class BoardService {
 		return dao.deleteBoard(board);
 	}
 	public void updateBoard(Board board) {
-		dao.updateUser(board);
+		dao.updateBoard(board);
 	}
 	public int getBoardsCount() {
 		return dao.getBoardsCount();
