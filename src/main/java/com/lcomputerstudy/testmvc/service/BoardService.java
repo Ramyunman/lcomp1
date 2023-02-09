@@ -2,6 +2,7 @@ package com.lcomputerstudy.testmvc.service;
 
 import java.util.ArrayList;
 
+
 import com.lcomputerstudy.testmvc.dao.BoardDAO;
 import com.lcomputerstudy.testmvc.vo.Board;
 import com.lcomputerstudy.testmvc.vo.Pagination;
@@ -44,4 +45,6 @@ public class BoardService {
 	public void replyInsert(Board board) {		//답글
 		dao.replyInsert(board);
 	}
+	
+
 }

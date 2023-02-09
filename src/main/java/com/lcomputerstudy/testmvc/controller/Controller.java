@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.lcomputerstudy.testmvc.service.BoardService;
+import com.lcomputerstudy.testmvc.service.CommentService;
 import com.lcomputerstudy.testmvc.service.UserService;
 import com.lcomputerstudy.testmvc.vo.Board;
 import com.lcomputerstudy.testmvc.vo.Comment;
@@ -42,6 +43,7 @@ public class Controller extends HttpServlet {
 		
 		UserService userService = null; 
 		BoardService boardService = null;		//board 추가
+		CommentService commentService = null;
 		User user = null;	
 		Board board = null;			//board 추가
 		Comment comment = null;		//comment(댓글)추가
@@ -197,21 +199,15 @@ public class Controller extends HttpServlet {
 				view = "board/b_insert-result";
 				break;
 				
-			case "/board-detail.do":		// 상세정보 + 댓글
+			case "/board-detail.do":		// board 상세정보 + 댓글
 				board = new Board();		//board라는 저장공간을 만들어 놓은 것이다. 새로운 인스턴스를 만든게 아니라.
 				board.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
 				boardService = BoardService.getInstance();
 				board = boardService.detailBoard(board);
 				request.setAttribute("board", board);
-				view = "board/b_detail";
 				
-				comment = new Comment();
-				comment.setB_idx(Integer.parseInt(request.getParameter("c_idx")));
-//				boardService = BoardService.getInstance();
-//				board = boardService.detailBoard(board);
-//				request.setAttribute("board", board);
-//				view = "board/b_detail";
 				
+				view = "board/b_detail";				
 				break;
 				
 			case "/board-update.do":		//01-19

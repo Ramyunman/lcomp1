@@ -67,7 +67,7 @@
 			
 	<h4> >> 댓글 등록 </h4>
 	<form action="board-detail.do" name="comment" method="post">
-		<input type = "hidden" name = "b_idx" value = "${board.b_idx }">
+		<input type = "hidden" name = "b_idx" value = "${comment.b_idx }">
 		<p> <textarea name="comment" cols="50" rows="5" placeholder="내용을 작성해 주세요."></textarea></p>
 		<p> 작성자 : <input type="text" name="writer"></p>	
 		<p> <input type="submit" value="등록하기"></p>
@@ -83,6 +83,14 @@
 				<th>작성자</th>
 				<th>작성일자</th>	
 			</tr>
+			<c:forEach items="${commentList }" var="comment" varStatus="status">
+				<tr>
+					<td>${item.c_idx }</td>
+					<td>${item.c_content }</td>
+					<td>${item.c_writer }</td>
+					<td>${item.c_date }</td>
+				</tr>
+			</c:forEach>
 		</table>
 	
 </body>
