@@ -38,19 +38,19 @@
 		<td>번호</td>
 		<td>${board.b_idx }</td>
 	</tr>
-		<tr>
+	<tr>
 		<td>내용</td>
 		<td>${board.b_content }</td>
 	</tr>
-		<tr>
+	<tr>
 		<td>조회수</td>
 		<td>${board.b_views }</td>
 	</tr>
-		<tr>
+	<tr>
 		<td>작성자</td>
 		<td>${board.b_writer }</td>
 	</tr>
-		<tr>
+	<tr>
 		<td>작성일자</td>
 		<td>${board.b_date }</td>
 	</tr>
@@ -64,5 +64,26 @@
 		</tr>
 	</table>
 	<a href="/lcomp1/board-reply-insert.do?b_group=${board.b_group}&b_order=${board.b_order}&b_depth=${board.b_depth}">답글 등록</a>
+			
+	<h4> >> 댓글 등록 </h4>
+	<form action="board-detail.do" name="comment" method="post">
+		<input type = "hidden" name = "b_idx" value = "${board.b_idx }">
+		<p> <textarea name="comment" cols="50" rows="5" placeholder="내용을 작성해 주세요."></textarea></p>
+		<p> 작성자 : <input type="text" name="writer"></p>	
+		<p> <input type="submit" value="등록하기"></p>
+		
+	</form>
+	
+	
+	<h3>댓글 목록</h3>
+		<table>
+			<tr>
+				<th>No</th>
+				<th>내용</th>
+				<th>작성자</th>
+				<th>작성일자</th>	
+			</tr>
+		</table>
+	
 </body>
 </html>

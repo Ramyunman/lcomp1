@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.lcomputerstudy.testmvc.database.DBConnection;
 import com.lcomputerstudy.testmvc.vo.Board;
+import com.lcomputerstudy.testmvc.vo.Comment;
 import com.lcomputerstudy.testmvc.vo.Pagination;
 
 
@@ -243,18 +244,6 @@ public class BoardDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			/*
-			String sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values (?,?,0,?,now(),?,?,?)";		
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, board.getB_title());
-			pstmt.setString(2, board.getB_content());
-			pstmt.setString(3, board.getB_writer());
-			pstmt.setString(4, String.valueOf(board.getB_group()));
-			pstmt.setString(5, String.valueOf(board.getB_order()));
-			pstmt.setString(6, String.valueOf(board.getB_depth()));
-			*/
-			
-			//sql = "update board set b_order = b_order+1 where b_group = ? and b_order >= ? and b_idx != last_insert_id()";
 			String sql = "update board set b_order = b_order+1 where b_group = ? and b_order > ?";	//원글에 계속 다는거 말고 새로 원글에 답글을 달때
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, board.getB_group());
@@ -263,6 +252,43 @@ public class BoardDAO {
 			pstmt.close();
 			
 			sql = "insert into board(b_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values (?,?,0,?,now(),?,?,?)";	//원글에 계속 다는거(사선으로)		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getB_title());
+			pstmt.setString(2, board.getB_content());
+			pstmt.setString(3, board.getB_writer());
+			pstmt.setInt(4, board.getB_group());
+			pstmt.setInt(5, board.getB_order() + 1);
+			pstmt.setInt(6, board.getB_depth() + 1);
+			pstmt.executeUpdate();
+			
+				
+		} catch (Exception ex) {
+			System.out.println("SQLException : " + ex.getMessage());
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	public void commentInsert(Comment comment) {		// 댓글 
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "UPDATE comment Set c_order = c_order+1 where c_group = ? and c_order > ?";	//원글에 계속 다는거 말고 새로 원글에 답글을 달때
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, comment.getC_group());
+			pstmt.setInt(2, comment.getC_order()); 	
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			sql = "INSERT INTO comment(c_title, b_content, b_views, b_writer, b_date, b_group, b_order, b_depth) values (?,?,0,?,now(),?,?,?)";	//원글에 계속 다는거(사선으로)		
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getB_title());
 			pstmt.setString(2, board.getB_content());

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.lcomputerstudy.testmvc.service.BoardService;
 import com.lcomputerstudy.testmvc.service.UserService;
 import com.lcomputerstudy.testmvc.vo.Board;
+import com.lcomputerstudy.testmvc.vo.Comment;
 import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.User;
 
@@ -43,6 +44,7 @@ public class Controller extends HttpServlet {
 		BoardService boardService = null;		//board 추가
 		User user = null;	
 		Board board = null;			//board 추가
+		Comment comment = null;		//comment(댓글)추가
 		
 		int page = 1;
 		int count = 0;
@@ -195,13 +197,21 @@ public class Controller extends HttpServlet {
 				view = "board/b_insert-result";
 				break;
 				
-			case "/board-detail.do":		//01-18
+			case "/board-detail.do":		// 상세정보 + 댓글
 				board = new Board();		//board라는 저장공간을 만들어 놓은 것이다. 새로운 인스턴스를 만든게 아니라.
 				board.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
 				boardService = BoardService.getInstance();
 				board = boardService.detailBoard(board);
 				request.setAttribute("board", board);
 				view = "board/b_detail";
+				
+				comment = new Comment();
+				comment.setB_idx(Integer.parseInt(request.getParameter("c_idx")));
+//				boardService = BoardService.getInstance();
+//				board = boardService.detailBoard(board);
+//				request.setAttribute("board", board);
+//				view = "board/b_detail";
+				
 				break;
 				
 			case "/board-update.do":		//01-19
@@ -251,8 +261,6 @@ public class Controller extends HttpServlet {
 				board.setB_content(request.getParameter("content"));
 				board.setB_writer(request.getParameter("writer"));
 				board.setB_group(Integer.parseInt(request.getParameter("b_group")));
-//				board.setB_order(Integer.parseInt(request.getParameter("b_order"))+1);
-//				board.setB_depth(Integer.parseInt(request.getParameter("b_depth"))+1);
 				board.setB_order(Integer.parseInt(request.getParameter("b_order")));
 				board.setB_depth(Integer.parseInt(request.getParameter("b_depth")));
 				
@@ -261,6 +269,7 @@ public class Controller extends HttpServlet {
 				boardService.replyInsert(board);
 				view = "board/b_reply-insert-result";
 				break;
+		
 				
 				
 				
