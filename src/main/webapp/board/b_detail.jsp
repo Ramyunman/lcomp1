@@ -66,12 +66,11 @@
 	<a href="/lcomp1/board-reply-insert.do?b_group=${board.b_group}&b_order=${board.b_order}&b_depth=${board.b_depth}">답글 등록</a>
 			
 	<h4> >> 댓글 등록 </h4>
-	<form action="board-detail.do" name="comment" method="post">
-		<input type = "hidden" name = "b_idx" value = "${comment.b_idx }">
-		<p> <textarea name="comment" cols="50" rows="5" placeholder="내용을 작성해 주세요."></textarea></p>
+	<form action="comment-insert-process.do" name="comment" method="post">
+		<input type = "hidden" name = "b_idx" value = "${board.b_idx }">
+		<p> 내용 : <input type="text" name = content></p>
 		<p> 작성자 : <input type="text" name="writer"></p>	
-		<p> <input type="submit" value="등록하기"></p>
-		
+		<p> <input type="submit" value="등록하기"></p>	
 	</form>
 	
 	
@@ -85,10 +84,10 @@
 			</tr>
 			<c:forEach items="${commentList }" var="comment" varStatus="status">
 				<tr>
-					<td>${item.c_idx }</td>
-					<td>${item.c_content }</td>
-					<td>${item.c_writer }</td>
-					<td>${item.c_date }</td>
+					<td>${comment.c_idx }</td>
+					<td>${comment.c_content }</td>
+					<td>${comment.c_writer }</td>
+					<td>${comment.c_date }</td>
 				</tr>
 			</c:forEach>
 		</table>

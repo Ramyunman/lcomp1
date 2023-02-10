@@ -199,13 +199,12 @@ public class Controller extends HttpServlet {
 				view = "board/b_insert-result";
 				break;
 				
-			case "/board-detail.do":		// board 상세정보 + 댓글
+			case "/board-detail.do":		// board 상세정보
 				board = new Board();		//board라는 저장공간을 만들어 놓은 것이다. 새로운 인스턴스를 만든게 아니라.
 				board.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
 				boardService = BoardService.getInstance();
 				board = boardService.detailBoard(board);
 				request.setAttribute("board", board);
-				
 				
 				view = "board/b_detail";				
 				break;
@@ -264,6 +263,18 @@ public class Controller extends HttpServlet {
 				boardService = BoardService.getInstance();
 				boardService.replyInsert(board);
 				view = "board/b_reply-insert-result";
+				break;
+				
+			/////////////////comment
+			case "/comment-insert-process.do":
+				comment = new Comment();
+				comment.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
+				comment.setC_content(request.getParameter("content"));
+				comment.setC_writer(request.getParameter("writer"));
+			
+				commentService = CommentService.getInstance();
+				commentService.insertComment(comment);
+				view = "board/c_comment-insert-result";
 				break;
 		
 				

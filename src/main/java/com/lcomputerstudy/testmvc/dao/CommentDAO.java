@@ -43,10 +43,10 @@ public class CommentDAO {
 				comment.setC_content(rs.getString("c_content"));
 				comment.setC_writer(rs.getString("c_writer"));
 				comment.setC_date(rs.getString("c_date"));
-				comment.setC_group(rs.getInt("c_group"));
-				comment.setC_order(rs.getInt("c_order"));
-				comment.setC_depth(rs.getInt("c_depth"));
-				comment.setB_idx(rs.getInt("b_idx"));
+//				comment.setC_group(rs.getInt("c_group"));
+//				comment.setC_order(rs.getInt("c_order"));
+//				comment.setC_depth(rs.getInt("c_depth"));
+//				comment.setB_idx(rs.getInt("b_idx"));
 
 				commentList.add(comment);
 			}
@@ -70,21 +70,11 @@ public class CommentDAO {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = DBConnection.getConnection();
-			String sql = "UPDATE comment Set c_order = c_order+1 where c_group = ? and c_order > ?";	//원글에 계속 다는거 말고 새로 원글에 답글을 달때
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, comment.getC_group());
-			pstmt.setInt(2, comment.getC_order()); 	
-			pstmt.executeUpdate();
-			pstmt.close();
-			
-			sql = "INSERT INTO comment(c_content, c_writer, c_date, c_group, c_order, c_depth, b_idx) values (?,?,now(),?,?,?,b_idx)";	//원글에 계속 다는거(사선으로)		
+			conn = DBConnection.getConnection();	
+			String sql = "INSERT INTO comment(c_content, c_writer, c_date, b_idx) values (?,?,now(), b_idx)";	//원글에 계속 다는거(사선으로)		
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, comment.getC_content());
-			pstmt.setString(2, comment.getC_writer());
-			pstmt.setInt(3, comment.getC_group());
-			pstmt.setInt(4, comment.getC_order() + 1);
-			pstmt.setInt(5, comment.getC_depth() + 1);
+			pstmt.setString(2, comment.getC_writer());		
 			pstmt.executeUpdate();
 			
 				
