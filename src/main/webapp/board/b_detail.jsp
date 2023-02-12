@@ -80,14 +80,14 @@
 				<th>No</th>
 				<th>내용</th>
 				<th>작성자</th>
-				<th>작성일자</th>	
+				<th>작성일자</th>		
 			</tr>
-			<c:forEach items="${commentList }" var="comment" varStatus="status">
+			<c:forEach items="${commentList}" var="comment" varStatus="status">
 				<tr>
 					<td>${comment.c_idx }</td>
 					<td>${comment.c_content }</td>
 					<td>${comment.c_writer }</td>
-					<td>${comment.c_date }</td>
+					<td>${comment.c_date }</td>					
 				</tr>
 			</c:forEach>
 		</table>

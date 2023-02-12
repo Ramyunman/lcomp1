@@ -32,7 +32,7 @@ public class CommentDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			String query = "select * from comment where b_idx = ? order by c_idx desc";
+			String query = "select * from comment where b_idx=? order by c_idx desc";
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, b_idx);
 			rs = pstmt.executeQuery();
@@ -45,8 +45,8 @@ public class CommentDAO {
 				comment.setC_writer(rs.getString("c_writer"));
 				comment.setC_date(rs.getString("c_date"));
 				comment.setB_idx(rs.getInt("b_idx"));
-
 				commentList.add(comment);
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();		

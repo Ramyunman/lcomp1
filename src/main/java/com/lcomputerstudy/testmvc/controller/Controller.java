@@ -50,6 +50,7 @@ public class Controller extends HttpServlet {
 		
 		int page = 1;
 		int count = 0;
+	    int b_idx = 0;		//comment
 		Pagination pagination = null;
 			
 		switch (command) {
@@ -201,11 +202,15 @@ public class Controller extends HttpServlet {
 				
 			case "/board-detail.do":		// board 상세정보
 				board = new Board();		//board라는 저장공간을 만들어 놓은 것이다. 새로운 인스턴스를 만든게 아니라.
-				board.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
+				b_idx = Integer.parseInt(request.getParameter("b_idx"));
+				board.setB_idx(b_idx);
 				boardService = BoardService.getInstance();
 				board = boardService.detailBoard(board);
 				request.setAttribute("board", board);
 				
+				commentService = CommentService.getInstance();		//comment
+				ArrayList<Comment> commentList = commentService.getComments(b_idx);
+				request.setAttribute("commentList", commentList);
 				view = "board/b_detail";				
 				break;
 				
