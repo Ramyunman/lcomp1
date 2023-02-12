@@ -89,5 +89,41 @@ public class CommentDAO {
 		}
 		
 	}
+	
+/*	public void commentIncomments(Comment comment) {	//대댓글달기
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "UPDATE comment SET c_order = c_order+1 where b_idx = ? and c_order > ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, comment.getB_idx());
+			pstmt.setInt(2, comment.getC_order());
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			sql = "INSERT INTO comment(c_content, c_writer, c_date, b_idx, c_order, c_depth) values (?,?,now(),?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, comment.getC_content());
+			pstmt.setString(2, comment.getC_writer());
+			pstmt.setInt(3, comment.getB_idx());
+			pstmt.setInt(4, comment.getC_order() + 1);
+			pstmt.setInt(5, comment.getC_depth() + 1);
+			pstmt.executeUpdate();
+			
+		} catch (Exception ex) {
+			System.out.println("SQLException : " + ex.getMessage());
+			
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	} 
+*/
 
 }

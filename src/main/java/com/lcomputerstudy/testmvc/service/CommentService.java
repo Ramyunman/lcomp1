@@ -3,6 +3,7 @@ package com.lcomputerstudy.testmvc.service;
 import java.util.ArrayList;
 
 import com.lcomputerstudy.testmvc.dao.CommentDAO;
+import com.lcomputerstudy.testmvc.vo.Board;
 import com.lcomputerstudy.testmvc.vo.Comment;
 
 public class CommentService {
@@ -34,7 +35,9 @@ public class CommentService {
 	public void updateComment(Comment comment) {		//댓글 수정
 		dao.updateComment(comment); 
 	}												*/
-
-
-
+	
+/*	public void commentInCommentsInsert(Comment comment) {		//대댓글 달기
+		dao.commentIncomments(comment);		
+	}
+ 		*/
 }
