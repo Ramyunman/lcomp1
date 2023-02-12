@@ -22,8 +22,8 @@ public class CommentService {
 		return service;
 	}
 	
-	public ArrayList<Comment> getComments() {		//댓글 목록
-		return dao.getComments();
+	public ArrayList<Comment> getComments(int b_idx) {		//댓글 목록
+		return dao.getComments(b_idx);
 	}
 	public void insertComment(Comment comment) {	//댓글 등록
 		dao.insertComment(comment);

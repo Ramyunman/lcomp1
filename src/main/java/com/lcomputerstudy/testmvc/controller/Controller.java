@@ -268,9 +268,9 @@ public class Controller extends HttpServlet {
 			/////////////////comment
 			case "/comment-insert-process.do":
 				comment = new Comment();
-				comment.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
 				comment.setC_content(request.getParameter("content"));
 				comment.setC_writer(request.getParameter("writer"));
+				comment.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
 			
 				commentService = CommentService.getInstance();
 				commentService.insertComment(comment);

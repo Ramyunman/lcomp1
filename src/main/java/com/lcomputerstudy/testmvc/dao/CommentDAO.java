@@ -24,7 +24,7 @@ public class CommentDAO {
 		return dao;
 	}
 	
-	public ArrayList<Comment> getComments() {		// 댓글 리스트
+	public ArrayList<Comment> getComments(int b_idx) {		// 댓글 리스트
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -32,8 +32,9 @@ public class CommentDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			String query = "select * from comment";
+			String query = "select * from comment where b_idx = ? order by c_idx desc";
 			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, b_idx);
 			rs = pstmt.executeQuery();
 			commentList = new ArrayList<Comment>();
 			
@@ -43,10 +44,7 @@ public class CommentDAO {
 				comment.setC_content(rs.getString("c_content"));
 				comment.setC_writer(rs.getString("c_writer"));
 				comment.setC_date(rs.getString("c_date"));
-//				comment.setC_group(rs.getInt("c_group"));
-//				comment.setC_order(rs.getInt("c_order"));
-//				comment.setC_depth(rs.getInt("c_depth"));
-//				comment.setB_idx(rs.getInt("b_idx"));
+				comment.setB_idx(rs.getInt("b_idx"));
 
 				commentList.add(comment);
 			}
@@ -71,10 +69,11 @@ public class CommentDAO {
 		
 		try {
 			conn = DBConnection.getConnection();	
-			String sql = "INSERT INTO comment(c_content, c_writer, c_date, b_idx) values (?,?,now(), b_idx)";	//원글에 계속 다는거(사선으로)		
+			String sql = "INSERT INTO comment(c_content, c_writer, c_date, b_idx) values (?,?,now(),?)";	//원글에 계속 다는거(사선으로)		
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, comment.getC_content());
-			pstmt.setString(2, comment.getC_writer());		
+			pstmt.setString(2, comment.getC_writer());	
+			pstmt.setInt(3, comment.getB_idx());
 			pstmt.executeUpdate();
 			
 				
