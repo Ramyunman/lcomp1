@@ -96,7 +96,8 @@
 				</tr>
 				<tr style="display: none;">
 					<td>
-						<textarea rows="1" cols="80"></textarea>
+						내용: <textarea rows="2" cols="80"></textarea>
+						<p> 작성자 : <input type="text" name="writer"></p>
 						<button type="button" class="btnComment" c_group="${comment.c_group }" c_order="${comment.c_order }" c_depth="${comment.c_depth }">등록</button>
 					</td>
 				</tr>
