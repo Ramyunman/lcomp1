@@ -5,6 +5,7 @@ public class Comment {
 	private String c_content;
 	private String c_writer;
 	private String c_date;
+	private int c_group;
 	private int c_order;
 	private int c_depth;
 	private int b_idx;
@@ -32,6 +33,12 @@ public class Comment {
 	}
 	public void setC_date(String c_date) {
 		this.c_date = c_date;
+	}
+	public int getC_group() {
+		return c_group;
+	}
+	public void setC_group(int c_group) {
+		this.c_group = c_group;
 	}
 	public int getC_order() {
 		return c_order;

@@ -36,8 +36,8 @@ public class CommentService {
 		dao.updateComment(comment); 
 	}												*/
 	
-/*	public void commentInCommentsInsert(Comment comment) {		//대댓글 달기
-		dao.commentIncomments(comment);		
+	public void commentInComments(Comment comment) {		//대댓글 달기
+		dao.commentIncomments(comment);	
 	}
- 		*/
+ 		
 }

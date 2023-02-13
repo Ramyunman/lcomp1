@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 상세정보</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <style>
 	table {
@@ -85,13 +86,44 @@
 			
 			<c:forEach items="${commentList}" var="comment" varStatus="status">
 				<tr>
-					<td><a href="/lcomp1/comment-commentInComments.do?b_idx=${comment.b_idx}&c_order=${comment.c_order}&c_depth=${comment.c_depth}">${comment.c_idx}</a></td>
+					<td>${comment.c_idx}</td>
 					<td>${comment.c_content }</td>
 					<td>${comment.c_writer }</td>
-					<td>${comment.c_date }</td>					
+					<td>${comment.c_date }</td>
+					<td>
+						<button type="button" class="btnCommentForm">댓글</button>
+					</td>			
+				</tr>
+				<tr style="display: none;">
+					<td>
+						<textarea rows="1" cols="80"></textarea>
+						<button type="button" class="btnComment" c_group="${comment.c_group }" c_order="${comment.c_order }" c_depth="${comment.c_depth }">등록</button>
+					</td>
 				</tr>
 			</c:forEach>
 		</table>
+<script>
+$(document).on('click', '.btnCommentForm', function () {
+	console.log('asdfasdf');
+	$(this).parent().parent().next().css('display', '');	//btnCommentForm에서 시작해서 바깥으로 나가면서 찾아감.
+});
+
+$(document).on('click', '.btnComment', function () {
+	console.log('asdfasdf2222');
 	
+/*	let cgroup = $(this).attr('cgroup');
+	
+	$.ajax({
+		  method: "POST",
+		  url: "commentReply.do",
+		  data: { c_group:cgorup , c_order: , c_depth: }
+	})
+	.done(function( msg ) {
+	   	alert( "Data Saved: " + msg );
+	});
+*/
+
+});
+</script>
 </body>
 </html>

@@ -63,19 +63,22 @@ public class CommentDAO {
 		return commentList;
 	}
 	
-	public void insertComment(Comment comment) {		// 댓글 등록
+	public void insertComment(Comment comment) {		// 댓글 목록에 댓글 넣기
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
 		try {
 			conn = DBConnection.getConnection();	
-			String sql = "INSERT INTO comment(c_content, c_writer, c_date, b_idx) values (?,?,now(),?)";	//원글에 계속 다는거(사선으로)		
+			String sql = "INSERT INTO comment(c_content, c_writer, c_date, b_idx, c_group, c_order, c_depth) values (?,?,now(),?,0,1,0)";		
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, comment.getC_content());
 			pstmt.setString(2, comment.getC_writer());	
 			pstmt.setInt(3, comment.getB_idx());
 			pstmt.executeUpdate();
+			pstmt.close();
 			
+			pstmt = conn.prepareStatement("UPDATE comment SET c_group = last_insert_id() WHERE c_idx = last_insert_id()");
+			pstmt.executeUpdate();			
 				
 		} catch (Exception ex) {
 			System.out.println("SQLException : " + ex.getMessage());
@@ -90,26 +93,27 @@ public class CommentDAO {
 		
 	}
 	
-/*	public void commentIncomments(Comment comment) {	//대댓글달기
+	public void commentIncomments(Comment comment) {	// 댓글 목록 안에 있는 댓글에 댓글달기
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "UPDATE comment SET c_order = c_order+1 where b_idx = ? and c_order > ?";
+			String sql = "UPDATE comment SET c_order = c_order+1 where c_group = ? and c_order > ?";	// 원글에 계속 댓글을 다는게 아니라 새로이 원글에 댓글을 달때
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, comment.getB_idx());
+			pstmt.setInt(1, comment.getC_group());
 			pstmt.setInt(2, comment.getC_order());
 			pstmt.executeUpdate();
 			pstmt.close();
 			
-			sql = "INSERT INTO comment(c_content, c_writer, c_date, b_idx, c_order, c_depth) values (?,?,now(),?,?,?)";
+			sql = "INSERT INTO comment(c_content, c_writer, c_date, b_idx, c_group, c_order, c_depth) values (?,?,now(),?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, comment.getC_content());
 			pstmt.setString(2, comment.getC_writer());
 			pstmt.setInt(3, comment.getB_idx());
-			pstmt.setInt(4, comment.getC_order() + 1);
-			pstmt.setInt(5, comment.getC_depth() + 1);
+			pstmt.setInt(4, comment.getC_group());
+			pstmt.setInt(5, comment.getC_order() + 1);
+			pstmt.setInt(6, comment.getC_depth() + 1);
 			pstmt.executeUpdate();
 			
 		} catch (Exception ex) {
@@ -124,6 +128,6 @@ public class CommentDAO {
 			}
 		}
 	} 
-*/
+
 
 }
