@@ -85,16 +85,18 @@
 			</tr>
 			
 			<c:forEach items="${commentList}" var="comment" varStatus="status">
+				
 				<tr>
 					<td>${comment.c_idx}</td>
 					<td>${comment.c_content }</td>
 					<td>${comment.c_writer }</td>
 					<td>${comment.c_date }</td>
 					<td>
-						<button type="button" class="btnCommentForm">댓글</button>
-						<button type="button" class="btnCommentUpdate">수정</button>
+						<button type="button" class="btnComment">댓글</button>
+						<button type="button" class="btnComment-Update">수정</button>
 					</td>			
 				</tr>
+						
 				<tr style="display: none;">		<%-- 대댓글 등록창 --%>
 					<td>
 						<div>
@@ -105,6 +107,7 @@
 						</div>	
 					</td>	
 				</tr>
+				
 				<tr style="display: none;">		<%-- 대댓글 수정창 --%>
 					<td>
 						<div>
@@ -118,30 +121,34 @@
 		</table>
 
 <script>
-$(document).on('click', '.btnCommentForm', function () {	//대댓글 달기 버튼
-	console.log('asdfasdf');
+$(document).on('click', '.btnComment', function () {	//대댓글 달기 버튼
+	console.log('대댓글 달기 버튼');
 	$(this).parent().parent().next().css('display', '');	
 });
 
 $(document).on('click', '.btnComment-register', function () {	//대댓글 등록 버튼
-	console.log('asdfasdf2222');
+	console.log('대댓글 등록 버튼');
 });
 
 $(document).on('click', '.btnComment-cancel', function () {		//대댓글 등록 취소 버튼
-	console.log('asdf123');	
+	console.log('대댓글 등록 취소 버튼');	
 	$(this).parent().parent().parent().css('display', 'none');
 });
 	
-$(document).on('click', '.btnCommentUpdate', function () {	//대댓글 수정 버튼
-	console.log('aaa2233');
+$(document).on('click', '.btnComment-Update', function () {	//대댓글 수정 버튼
+	console.log('대댓글 수정 버튼 ');
 	$(this).parent().parent().next().next().css('display', '');	
 	$(this).parent().parent().css('display', 'none');	
 	
 });	
 
-$(document).on('click', '.btnComment-Update-cancel', function () {		//대댓글 등록 취소 버튼
-	console.log('cadf33123');	
-	$(this).parent().parent().parent().css('display', 'none');
+$(document).on('click', '.btnComment-Update-register', function () {	//대댓글 수정 등록 버튼
+	console.log('대댓글 수정 등록 버튼');	
+});	
+
+$(document).on('click', '.btnComment-Update-cancel', function () {		//대댓글 수정 취소 버튼
+	console.log('대댓글 수정 취소 버튼');	
+	$(this).parent().parent().parent().prev().prev().css('display','');
 });
 	
 /*	let cgroup = $(this).attr('cgroup');
