@@ -290,8 +290,8 @@ public class Controller extends HttpServlet {
 				comment.setC_depth(Integer.parseInt(request.getParameter("c_depth")));
 				
 				commentService = CommentService.getInstance();
-				commentService.insertComment(comment);
-				view = "board/b_detail";
+				commentService.commentInComments(comment);
+				view = "board/c_cInC-insert-result";
 				break;
 			
 				

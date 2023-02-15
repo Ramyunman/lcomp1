@@ -44,6 +44,9 @@ public class CommentDAO {
 				comment.setC_content(rs.getString("c_content"));
 				comment.setC_date(rs.getString("c_date"));
 				comment.setB_idx(rs.getInt("b_idx"));
+				comment.setC_group(rs.getInt("c_group"));
+				comment.setC_order(rs.getInt("c_order"));
+				comment.setC_depth(rs.getInt("c_depth"));
 				commentList.add(comment);
 				
 			}

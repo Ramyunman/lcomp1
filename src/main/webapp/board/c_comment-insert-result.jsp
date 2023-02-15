@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>답글 등록 완료</title>
+<title>댓글 등록 완료</title>
 </head>
 <body>
 <a href="/lcomp1/board-list.do">돌아가기</a>

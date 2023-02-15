@@ -122,9 +122,11 @@ $(document).on('click', '.btnComment', function () {	//대댓글 달기 버튼
 	$(this).parent().parent().next().css('display', '');	
 });
 
+/*
 $(document).on('click', '.btnComment-register', function () {	//대댓글 등록 버튼
 	console.log('대댓글 등록 버튼');
 });
+*/
 
 $(document).on('click', '.btnComment-cancel', function () {		//대댓글 등록 취소 버튼
 	console.log('대댓글 등록 취소 버튼');	
@@ -163,6 +165,7 @@ $(document).on('click', '.btnComment-register', function (){
 	.done(function( msg ) {
 	   	alert( "Data Saved: " + msg );
 	});
+	console.log('대댓글 등록 버튼');
 });	
 
 
