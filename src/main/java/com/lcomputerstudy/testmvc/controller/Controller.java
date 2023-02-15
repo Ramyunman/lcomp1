@@ -271,7 +271,7 @@ public class Controller extends HttpServlet {
 				break;
 				
 			/////////////////comment
-			case "/comment-insert-process.do":
+			case "/comment-insert-process.do":		// b_detail에 댓글 달기
 				comment = new Comment();
 				comment.setC_content(request.getParameter("c_content"));
 				comment.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
@@ -281,7 +281,7 @@ public class Controller extends HttpServlet {
 				view = "board/c_comment-insert-result";
 				break;
 		
-			case "/comment-commentInComments.do":	//댓글에 댓글 달기
+			case "/comment-commentInComments.do":	// b_detail 댓글 목록의 댓글에 댓글 달기
 				comment = new Comment();
 				comment.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
 				comment.setC_content(request.getParameter("c_content"));
