@@ -69,8 +69,7 @@
 	<h4> >> 댓글 등록 </h4>
 	<form action="comment-insert-process.do" name="comment" method="post">
 		<input type = "hidden" name = "b_idx" value = "${board.b_idx }">
-		<p> 내용 : <input type="text" name = content></p>
-		<p> 작성자 : <input type="text" name="writer"></p>	
+		<p> 내용 : <input type="text" name=c_content></p>
 		<p> <input type="submit" value="등록하기"></p>	
 	</form>
 	
@@ -80,7 +79,6 @@
 			<tr>
 				<th>No</th>
 				<th>내용</th>
-				<th>작성자</th>
 				<th>작성일자</th>		
 			</tr>
 			
@@ -88,9 +86,8 @@
 				
 				<tr>
 					<td>${comment.c_idx}</td>
-					<td>${comment.c_content }</td>
-					<td>${comment.c_writer }</td>
-					<td>${comment.c_date }</td>
+					<td>${comment.c_content}</td>
+					<td>${comment.c_date}</td>
 					<td>
 						<button type="button" class="btnComment">댓글</button>
 						<button type="button" class="btnComment-Update">수정</button>
@@ -100,8 +97,7 @@
 				<tr style="display: none;">		<%-- 대댓글 등록창 --%>
 					<td>
 						<div>
-							<p> <textarea rows="2" cols="80"></textarea></p>
-							<p> 작성자 : <input type="text" name="writer"></p>
+							<textarea rows="2" cols="80" ></textarea>	
 							<button type="button" class="btnComment-register" c_group="${comment.c_group }" c_order="${comment.c_order }" c_depth="${comment.c_depth }">등록</button>
 							<button type="button" class="btnComment-cancel">취소</button>
 						</div>	
@@ -111,7 +107,7 @@
 				<tr style="display: none;">		<%-- 대댓글 수정창 --%>
 					<td>
 						<div>
-							<p> <textarea rows="2" cols="80"> ${comment.c_content } </textarea> </p>
+							<textarea rows="2" cols="80"> ${comment.c_content } </textarea>
 							<button type="button" class="btnComment-Update-register">등록</button>
 							<button type="button" class="btnComment-Update-cancel">취소</button>
 						</div>	
@@ -138,8 +134,7 @@ $(document).on('click', '.btnComment-cancel', function () {		//대댓글 등록 
 $(document).on('click', '.btnComment-Update', function () {	//대댓글 수정 버튼
 	console.log('대댓글 수정 버튼 ');
 	$(this).parent().parent().next().next().css('display', '');	
-	$(this).parent().parent().css('display', 'none');	
-	
+	$(this).parent().parent().css('display', 'none');		
 });	
 
 $(document).on('click', '.btnComment-Update-register', function () {	//대댓글 수정 등록 버튼
@@ -149,8 +144,28 @@ $(document).on('click', '.btnComment-Update-register', function () {	//대댓글
 $(document).on('click', '.btnComment-Update-cancel', function () {		//대댓글 수정 취소 버튼
 	console.log('대댓글 수정 취소 버튼');	
 	$(this).parent().parent().parent().prev().prev().css('display','');
+	$(this).parent().parent().parent().css('display', 'none');
 });
+
+
+$(document).on('click', '.btnComment-register', function (){		
+	let bIdx = '${board.b_idx}';
+	let cContent = $(this).prev('textarea').val();
+	let cGroup = $(this).attr('c_group');
+	let cOrder = $(this).attr('c_order');
+	let cDepth = $(this).attr('c_depth');
 	
+	$.ajax({
+		  method: "POST",
+		  url: "/comment-commentInComments.do",
+		  data: { b_idx:bIdx, c_content:cContent, c_group:cGroup, c_order:cOrder, c_depth:cDepth }
+	})
+	.done(function( msg ) {
+	   	alert( "Data Saved: " + msg );
+	});
+});	
+
+
 /*	let cgroup = $(this).attr('cgroup');
 	
 	$.ajax({

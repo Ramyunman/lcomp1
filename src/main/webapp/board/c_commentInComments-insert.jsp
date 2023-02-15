@@ -10,7 +10,6 @@
 	<h2>대댓글 등록</h2>
 	<form action="comment-commentInComments-process.do" name="comment" method="post">
 	<p> 내용 : <input type="text" name="content"></p>
-	<p> 작성자 : <input type="text" name="writer"></p>
 	<p> <input type = "hidden" name = "b_idx" value = "${comment.b_idx }"> </p>
 	<p> <input type = "hidden" name = "c_order" value = "${comment.c_order }"> </p>
 	<p> <input type = "hidden" name = "c_depth" value = "${comment.c_depth }"> </p>

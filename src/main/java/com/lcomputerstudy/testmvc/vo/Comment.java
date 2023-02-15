@@ -3,7 +3,6 @@ package com.lcomputerstudy.testmvc.vo;
 public class Comment {
 	private int c_idx;
 	private String c_content;
-	private String c_writer;
 	private String c_date;
 	private int c_group;
 	private int c_order;
@@ -21,12 +20,6 @@ public class Comment {
 	}
 	public void setC_content(String c_content) {
 		this.c_content = c_content;
-	}
-	public String getC_writer() {
-		return c_writer;
-	}
-	public void setC_writer(String c_writer) {
-		this.c_writer = c_writer;
 	}
 	public String getC_date() {
 		return c_date;

@@ -42,7 +42,6 @@ public class CommentDAO {
 				Comment comment = new Comment();
 				comment.setC_idx(rs.getInt("c_idx"));
 				comment.setC_content(rs.getString("c_content"));
-				comment.setC_writer(rs.getString("c_writer"));
 				comment.setC_date(rs.getString("c_date"));
 				comment.setB_idx(rs.getInt("b_idx"));
 				commentList.add(comment);
@@ -69,11 +68,10 @@ public class CommentDAO {
 		
 		try {
 			conn = DBConnection.getConnection();	
-			String sql = "INSERT INTO comment(c_content, c_writer, c_date, b_idx, c_group, c_order, c_depth) values (?,?,now(),?,0,1,0)";		
+			String sql = "INSERT INTO comment(c_content, c_date, b_idx, c_group, c_order, c_depth) values (?,now(),?,0,1,0)";		
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, comment.getC_content());
-			pstmt.setString(2, comment.getC_writer());	
-			pstmt.setInt(3, comment.getB_idx());
+			pstmt.setInt(2, comment.getB_idx());
 			pstmt.executeUpdate();
 			pstmt.close();
 			
@@ -93,7 +91,7 @@ public class CommentDAO {
 		
 	}
 	
-	public void commentIncomments(Comment comment) {	// 댓글 목록 안에 있는 댓글에 댓글달기
+	public void commentInComments(Comment comment) {	// 댓글 목록 안에 있는 댓글에 댓글달기
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -106,14 +104,13 @@ public class CommentDAO {
 			pstmt.executeUpdate();
 			pstmt.close();
 			
-			sql = "INSERT INTO comment(c_content, c_writer, c_date, b_idx, c_group, c_order, c_depth) values (?,?,now(),?,?,?,?)";
+			sql = "INSERT INTO comment(c_content, c_date, b_idx, c_group, c_order, c_depth) values (?,now(),?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, comment.getC_content());
-			pstmt.setString(2, comment.getC_writer());
-			pstmt.setInt(3, comment.getB_idx());
-			pstmt.setInt(4, comment.getC_group());
-			pstmt.setInt(5, comment.getC_order() + 1);
-			pstmt.setInt(6, comment.getC_depth() + 1);
+			pstmt.setInt(2, comment.getB_idx());
+			pstmt.setInt(3, comment.getC_group());
+			pstmt.setInt(4, comment.getC_order() + 1);
+			pstmt.setInt(5, comment.getC_depth() + 1);
 			pstmt.executeUpdate();
 			
 		} catch (Exception ex) {

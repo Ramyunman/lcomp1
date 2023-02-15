@@ -273,8 +273,7 @@ public class Controller extends HttpServlet {
 			/////////////////comment
 			case "/comment-insert-process.do":
 				comment = new Comment();
-				comment.setC_content(request.getParameter("content"));
-				comment.setC_writer(request.getParameter("writer"));
+				comment.setC_content(request.getParameter("c_content"));
 				comment.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
 			
 				commentService = CommentService.getInstance();
@@ -282,30 +281,19 @@ public class Controller extends HttpServlet {
 				view = "board/c_comment-insert-result";
 				break;
 		
-		/*	case "/comment-commentInComments.do":	//댓글에 댓글 달기
+			case "/comment-commentInComments.do":	//댓글에 댓글 달기
 				comment = new Comment();
 				comment.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
-				comment.setC_order(Integer.parseInt(request.getParameter("c_order")));
-				comment.setC_depth(Integer.parseInt(request.getParameter("c_depth")));
-				
-				commentService = CommentService.getInstance();
-				commentService.commentInCommentsInsert(comment);
-				view = "board/c_commentInComments-insert";
-				break;
-			
-			case "/comment-commentInComments-process.do":	//댓글에 댓글 달기 결과
-				comment = new Comment();
-				comment.setC_content(request.getParameter("content"));
-				comment.setC_writer(request.getParameter("writer"));
-				comment.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
+				comment.setC_content(request.getParameter("c_content"));
+				comment.setC_group(Integer.parseInt(request.getParameter("c_group")));
 				comment.setC_order(Integer.parseInt(request.getParameter("c_order")));
 				comment.setC_depth(Integer.parseInt(request.getParameter("c_depth")));
 				
 				commentService = CommentService.getInstance();
 				commentService.insertComment(comment);
-				view = "/board/c_commentInComments-insert-result";
+				view = "board/b_detail";
 				break;
-			*/	
+			
 				
 		}
 		
