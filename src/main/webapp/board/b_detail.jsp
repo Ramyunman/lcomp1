@@ -73,9 +73,8 @@
 		<p> <input type="submit" value="등록하기"></p>	
 	</form>
 	
-	
 	<h3>댓글 목록</h3>
-		<table>
+		<table id="commentList">
 			<tr>
 				<th>No</th>
 				<th>내용</th>
@@ -150,7 +149,7 @@ $(document).on('click', '.btnComment-Update-cancel', function () {		//대댓글 
 });
 
 
-$(document).on('click', '.btnComment-register', function (){		
+$(document).on('click', '.btnComment-register', function (){		//대댓글 등록 버튼
 	let bIdx = '${board.b_idx}';
 	let cContent = $(this).prev('textarea').val();
 	let cGroup = $(this).attr('c_group');
@@ -159,11 +158,12 @@ $(document).on('click', '.btnComment-register', function (){
 	
 	$.ajax({
 		  method: "POST",
-		  url: "/comment-commentInComments.do",
+		  url: "/lcomp1/comment-commentInComments.do",
 		  data: { b_idx:bIdx, c_content:cContent, c_group:cGroup, c_order:cOrder, c_depth:cDepth }
 	})
 	.done(function( msg ) {
-	   	alert( "Data Saved: " + msg );
+	   	//alert( "Data Saved: " + msg );
+	   	$('#commentList').html(msg);
 	});
 	console.log('대댓글 등록 버튼');
 });	

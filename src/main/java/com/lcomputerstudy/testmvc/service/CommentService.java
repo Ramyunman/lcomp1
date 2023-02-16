@@ -29,6 +29,7 @@ public class CommentService {
 	public void insertComment(Comment comment) {	//댓글 등록
 		dao.insertComment(comment);
 	}
+	
 /*	public Comment deleteComment(Comment comment) {		//댓글 삭제
 		return dao.deleteComment(comment);
 	}
@@ -38,6 +39,10 @@ public class CommentService {
 	
 	public void commentInComments(Comment comment) {		//대댓글 달기
 		dao.commentInComments(comment);	
+	}
+	
+	public ArrayList<Comment> commentList(int b_idx) {		// 댓글 목록만 불러오기
+		return dao.commentList(b_idx);
 	}
  		
 }

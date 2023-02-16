@@ -101,7 +101,7 @@ public class CommentDAO {
 		try {
 			conn = DBConnection.getConnection();
 			String sql = "UPDATE comment SET c_order = c_order+1 where c_group = ? and c_order > ?";	// 원글에 계속 댓글을 다는게 아니라 새로이 원글에 댓글을 달때
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql);															// 더 큰쪽이 1이 더해지면서 뒤로 밀려나면서 새로 하나 들어온다.
 			pstmt.setInt(1, comment.getC_group());
 			pstmt.setInt(2, comment.getC_order());
 			pstmt.executeUpdate();
@@ -128,6 +128,47 @@ public class CommentDAO {
 			}
 		}
 	} 
+	
+	public ArrayList<Comment> commentList(int b_idx) {		// 댓글 리스트만 부르기
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Comment> commentList = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "select * from comment where b_idx=? order by c_idx desc";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, b_idx);
+			rs = pstmt.executeQuery();
+			commentList = new ArrayList<Comment>();
+			
+			while(rs.next()) {
+				Comment comment = new Comment();
+				comment.setC_idx(rs.getInt("c_idx"));
+				comment.setC_content(rs.getString("c_content"));
+				comment.setC_date(rs.getString("c_date"));
+				comment.setB_idx(rs.getInt("b_idx"));
+				comment.setC_group(rs.getInt("c_group"));
+				comment.setC_order(rs.getInt("c_order"));
+				comment.setC_depth(rs.getInt("c_depth"));
+				commentList.add(comment);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();		
+		} finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return commentList;
+	}
 
 
 }

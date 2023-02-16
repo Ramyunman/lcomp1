@@ -278,7 +278,7 @@ public class Controller extends HttpServlet {
 			
 				commentService = CommentService.getInstance();
 				commentService.insertComment(comment);
-				view = "board/c_comment-insert-result";
+				view = "board/c_insert-result";
 				break;
 		
 			case "/comment-commentInComments.do":	// b_detail 댓글 목록의 댓글에 댓글 달기
@@ -291,8 +291,10 @@ public class Controller extends HttpServlet {
 				
 				commentService = CommentService.getInstance();
 				commentService.commentInComments(comment);
-				view = "board/c_cInC-insert-result";
+				view = "board/c_list";
 				break;
+			
+			
 			
 				
 		}
