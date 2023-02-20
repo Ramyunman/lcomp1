@@ -65,7 +65,7 @@ public class CommentDAO {
 		return commentList;
 	}
 	
-	public void insertComment(Comment comment) {		// 댓글 목록에 댓글 넣기
+	public void insertComment(Comment comment) {		// 댓글 목록에 원댓글 넣기
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -94,7 +94,7 @@ public class CommentDAO {
 		
 	}
 	
-	public void commentInComments(Comment comment) {	// 댓글 목록 안에 있는 댓글에 댓글달기
+	public void commentInComments(Comment comment) {	// 댓글 목록 안에 있는 댓글에 댓글달기(대댓글 달기)
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -117,8 +117,7 @@ public class CommentDAO {
 			pstmt.executeUpdate();
 			
 		} catch (Exception ex) {
-			System.out.println("SQLException : " + ex.getMessage());
-			
+			ex.printStackTrace();
 		} finally {
 			try {
 				if (pstmt != null) pstmt.close();
@@ -129,45 +128,59 @@ public class CommentDAO {
 		}
 	} 
 	
-	public ArrayList<Comment> commentList(int b_idx) {		// 댓글 리스트만 부르기
+	public void updateComment(Comment comment) {		//댓글 또는 대댓글 수정
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		ArrayList<Comment> commentList = null;
 		
 		try {
 			conn = DBConnection.getConnection();
-			String query = "select * from comment where b_idx=? order by c_idx desc";
-			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, b_idx);
-			rs = pstmt.executeQuery();
-			commentList = new ArrayList<Comment>();
-			
-			while(rs.next()) {
-				Comment comment = new Comment();
-				comment.setC_idx(rs.getInt("c_idx"));
-				comment.setC_content(rs.getString("c_content"));
-				comment.setC_date(rs.getString("c_date"));
-				comment.setB_idx(rs.getInt("b_idx"));
-				comment.setC_group(rs.getInt("c_group"));
-				comment.setC_order(rs.getInt("c_order"));
-				comment.setC_depth(rs.getInt("c_depth"));
-				commentList.add(comment);
-				
-			}
-		} catch (Exception e) {
-			e.printStackTrace();		
+			String sql = "UPDATE comment SET c_content = ? where b_idx = ? and c_group = ? and c_order = ? and c_depth = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, comment.getC_content());
+			pstmt.setInt(2, comment.getB_idx());
+			pstmt.setInt(3, comment.getC_group());
+			pstmt.setInt(4, comment.getC_order());
+			pstmt.setInt(5, comment.getC_depth());
+			pstmt.executeUpdate();
+		
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		} finally {
 			try {
-				if(rs != null) rs.close();
-				if(pstmt != null) pstmt.close();
-				if(conn != null) conn.close();
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		return commentList;
+	}
+
+	public Comment deleteComment(Comment comment) {			//댓글 또는 대댓글 삭제
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Comment resultComment = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "DELETE from comment where c_idx = ?";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, comment.getC_idx());
+			rs = pstmt.executeQuery();
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return resultComment;
 	}
 
 
