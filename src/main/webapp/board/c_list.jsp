@@ -16,7 +16,7 @@
 			<td>
 				<button type="button" class="btnComment">댓글</button>
 				<button type="button" class="btnComment-Update">수정</button>
-				<button type="button" class="btnComment-Delete">삭제</button>	
+				<button type="button" class="btnComment-Delete" c_group="${comment.c_group}" c_order="${comment.c_order}" c_depth="${comment.c_depth}">삭제</button>	
 			</td>			
 		</tr>
 						
@@ -34,7 +34,7 @@
 			<td>
 				<div>
 					<textarea rows="2" cols="80"> ${comment.c_content } </textarea>
-					<button type="button" class="btnComment-Update-register"  c_group="${comment.c_group}" c_order="${comment.c_order}" c_depth="${comment.c_depth}">등록</button>
+					<button type="button" class="btnComment-Update-register" c_group="${comment.c_group}" c_order="${comment.c_order}" c_depth="${comment.c_depth}">등록</button>
 					<button type="button" class="btnComment-Update-cancel">취소</button>
 				</div>	
 			</td>

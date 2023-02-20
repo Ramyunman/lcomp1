@@ -275,6 +275,9 @@ public class Controller extends HttpServlet {
 				comment = new Comment();
 				comment.setC_content(request.getParameter("c_content"));
 				comment.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
+				comment.setC_group(Integer.parseInt(request.getParameter("c_group")));
+				comment.setC_order(Integer.parseInt(request.getParameter("c_order")));
+				comment.setC_depth(Integer.parseInt(request.getParameter("c_depth")));
 				
 				commentService = CommentService.getInstance();
 				commentService.insertComment(comment);
@@ -300,7 +303,7 @@ public class Controller extends HttpServlet {
 				view = "board/c_list";
 				break;
 			
-			case "/comment-updateComment.do":		// b_detial에 있는 댓글 수정
+			case "/comment-updateComment.do":		// b_detail에 있는 댓글 수정
 				comment = new Comment();
 				comment.setC_content(request.getParameter("c_content"));
 				comment.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
@@ -318,7 +321,10 @@ public class Controller extends HttpServlet {
 				
 			case "/comment-deleteComment.do":		// b_detail에 있는 댓글 삭제
 				comment = new Comment();
-				comment.setC_idx(Integer.parseInt(request.getParameter("c_idx")));
+				comment.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
+				comment.setC_group(Integer.parseInt(request.getParameter("c_group")));
+				comment.setC_order(Integer.parseInt(request.getParameter("c_order")));
+				comment.setC_depth(Integer.parseInt(request.getParameter("c_depth")));
 								
 				commentService = CommentService.getInstance();
 				comment = commentService.deleteComment(comment);

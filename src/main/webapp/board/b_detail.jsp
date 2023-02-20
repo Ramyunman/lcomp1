@@ -68,9 +68,9 @@
 			
 	<h4> >> 댓글 등록 </h4>
 	<form action="comment-insert-process.do" name="comment" method="post">
-		<input type = "hidden" name = "b_idx" value = "${board.b_idx }">
+		<input type = "hidden" name = "b_idx" value = "${board.b_idx}">
 		내용 : <input type="text" name=c_content>
-		<button type="button" class="commentRegister"> 등록하기 </button>	
+		<button type="button" class="commentRegister" c_group="${comment.c_group}" c_order="${comment.c_order}" c_depth="${comment.c_depth}"> 등록하기 </button>	
 	</form>
 	
 	<h3>댓글 목록</h3>
@@ -90,7 +90,7 @@
 					<td>
 						<button type="button" class="btnComment">댓글</button>
 						<button type="button" class="btnComment-Update">수정</button>
-						<button type="button" class="btnComment-Delete">삭제</button>						
+						<button type="button" class="btnComment-Delete" c_group="${comment.c_group}" c_order="${comment.c_order}" c_depth="${comment.c_depth}">삭제</button>						
 					</td>			
 				</tr>
 						
@@ -122,11 +122,14 @@
 $(document).on('click', '.commentRegister', function (){			//원댓글 등록 버튼
 	let bIdx = '${board.b_idx}';
 	let cContent = $(this).prev('input').val();
+	let cGroup = $(this).attr('c_group');
+	let cOrder = $(this).attr('c_order');
+	let cDepth = $(this).attr('c_depth');
 		
 	$.ajax({
 		  method: "POST",
 		  url: "/lcomp1/comment-insert-process.do",
-		  data: { b_idx:bIdx, c_content:cContent }
+		  data: { b_idx:bIdx, c_content:cContent, c_group:cGroup, c_order:cOrder, c_depth:cDepth }
 	})
 	.done(function( msg ) {
 		console.log(msg);
@@ -196,18 +199,20 @@ $(document).on('click', '.btnComment-Update-cancel', function () {		//대댓글 
 });
 
 $(document).on('click', '.btnComment-Delete', function () {				//대댓글 삭제 버튼
-	let cIdx = '${comment.c_idx}';
+	let bIdx = '${board.b_idx}';
+	let cGroup = $(this).attr('c_group');
+	let cOrder = $(this).attr('c_order');
+	let cDepth = $(this).attr('c_depth');
 	
 	$.ajax({
 		method: "POST",
 		url: "/lcomp1/comment-deleteComment.do",
-		data: { c_idx:cIdx }
+		data: { b_idx:bIdx, c_group:cGroup, c_order:cOrder, c_depth:cDepth }
 	})
-		
-	
-	
-	
-	
+	.done(function( msg ) {
+		console.log(msg);
+		$('#commentList').html(msg);
+	});
 	console.log('대댓글 삭제 버튼');
 });
 	

@@ -164,9 +164,12 @@ public class CommentDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			String query = "DELETE from comment where c_idx = ?";
+			String query = "DELETE from comment where b_idx = ? and c_group = ? and c_order = ? and c_depth = ?";
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, comment.getC_idx());
+			pstmt.setInt(1, comment.getB_idx());
+			pstmt.setInt(2, comment.getC_group());
+			pstmt.setInt(3, comment.getC_order());
+			pstmt.setInt(4, comment.getC_depth());
 			rs = pstmt.executeQuery();
 		
 		} catch (Exception e) {
@@ -182,6 +185,8 @@ public class CommentDAO {
 		}
 		return resultComment;
 	}
+
+	
 
 
 }
