@@ -41,8 +41,9 @@ public class CommentService {
 		dao.commentInComments(comment);	
 	}
 	
-	public ArrayList<Comment> commentList(int b_idx) {		// 댓글 목록만 불러오기
+/*	public ArrayList<Comment> commentList(int b_idx) {		// 댓글 목록만 불러오기 ??
 		return dao.commentList(b_idx);
 	}
- 		
+*/
+	
 }

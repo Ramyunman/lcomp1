@@ -47,6 +47,7 @@ public class Controller extends HttpServlet {
 		User user = null;	
 		Board board = null;			//board 추가
 		Comment comment = null;		//comment(댓글)추가
+		ArrayList<Comment> commentList = null;
 		
 		int page = 1;
 		int count = 0;
@@ -209,7 +210,7 @@ public class Controller extends HttpServlet {
 				request.setAttribute("board", board);
 				
 				commentService = CommentService.getInstance();		//comment
-				ArrayList<Comment> commentList = commentService.getComments(b_idx);
+				commentList = commentService.getComments(b_idx);
 				request.setAttribute("commentList", commentList);
 				view = "board/b_detail";				
 				break;
@@ -264,7 +265,6 @@ public class Controller extends HttpServlet {
 				board.setB_order(Integer.parseInt(request.getParameter("b_order")));
 				board.setB_depth(Integer.parseInt(request.getParameter("b_depth")));
 				
-				
 				boardService = BoardService.getInstance();
 				boardService.replyInsert(board);
 				view = "board/b_reply-insert-result";
@@ -291,6 +291,11 @@ public class Controller extends HttpServlet {
 				
 				commentService = CommentService.getInstance();
 				commentService.commentInComments(comment);
+				
+				// 목록 새로고침을 위해 새 목록을 갖고 온다.
+				commentList = commentService.getComments(comment.getB_idx());
+				request.setAttribute("commentList", commentList);
+				
 				view = "board/c_list";
 				break;
 			

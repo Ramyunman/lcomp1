@@ -162,7 +162,7 @@ $(document).on('click', '.btnComment-register', function (){		//대댓글 등록
 		  data: { b_idx:bIdx, c_content:cContent, c_group:cGroup, c_order:cOrder, c_depth:cDepth }
 	})
 	.done(function( msg ) {
-	   	//alert( "Data Saved: " + msg );
+		console.log(msg);
 	   	$('#commentList').html(msg);
 	});
 	console.log('대댓글 등록 버튼');
