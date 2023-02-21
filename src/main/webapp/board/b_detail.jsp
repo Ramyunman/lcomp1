@@ -55,6 +55,7 @@
 		<td>작성일자</td>
 		<td>${board.b_date }</td>
 	</tr>
+	
 	<tr style="height:50px;">
 			<td style="border:none;">
 				<a href="/lcomp1/board-update.do?b_idx=${board.b_idx}" style="width:70%;font-weight:700;background-color:#818181;color:#fff;">수정</a>
@@ -65,12 +66,16 @@
 		</tr>
 	</table>
 	<a href="/lcomp1/board-reply-insert.do?b_group=${board.b_group}&b_order=${board.b_order}&b_depth=${board.b_depth}">답글 등록</a>
-			
+		
 	<h4> >> 댓글 등록 </h4>
-	<form action="comment-insert-process.do" name="comment" method="post">
-		<input type = "hidden" name = "b_idx" value = "${board.b_idx}">
-		내용 : <input type="text" name=c_content>
-		<button type="button" class="commentRegister" c_group="${comment.c_group}" c_order="${comment.c_order}" c_depth="${comment.c_depth}"> 등록하기 </button>	
+	<form action="comment-original-insert-process.do" name="comment" method="post">
+		<input type = "hidden" name="b_idx" value="${board.b_idx}">
+<%-- 	<input type = "hidden" name="c_group" value="${comment.c_group}">
+		<input type = "hidden" name="c_order" value="${comment.c_order}">
+		<input type = "hidden" name="c_depth" value="${comment.c_depth}">	--%>	
+		내용 : <input type="text" name="c_content">
+		
+		<input type="submit" value="등록하기">	
 	</form>
 	
 	<h3>댓글 목록</h3>
@@ -118,25 +123,6 @@
 		</table>
 
 <script>
-
-$(document).on('click', '.commentRegister', function (){			//원댓글 등록 버튼
-	let bIdx = '${board.b_idx}';
-	let cContent = $(this).prev('input').val();
-	let cGroup = $(this).attr('c_group');
-	let cOrder = $(this).attr('c_order');
-	let cDepth = $(this).attr('c_depth');
-		
-	$.ajax({
-		  method: "POST",
-		  url: "/lcomp1/comment-insert-process.do",
-		  data: { b_idx:bIdx, c_content:cContent, c_group:cGroup, c_order:cOrder, c_depth:cDepth }
-	})
-	.done(function( msg ) {
-		console.log(msg);
-	   	$('#commentList').html(msg);
-	});
-	console.log('원댓글 등록 버튼');
-});
 
 $(document).on('click', '.btnComment', function () {				//대댓글 달기 버튼
 	console.log('대댓글 달기 버튼');

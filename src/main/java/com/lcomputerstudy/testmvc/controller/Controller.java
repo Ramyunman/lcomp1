@@ -270,21 +270,18 @@ public class Controller extends HttpServlet {
 				view = "board/b_reply-insert-result";
 				break;
 				
-			/////////////////comment
-			case "/comment-insert-process.do":		// b_detail에 댓글 달기
+			/////////////////comment						
+			case "/comment-original-insert-process.do":		// b_detail에 댓글 달기
 				comment = new Comment();
-				comment.setC_content(request.getParameter("c_content"));
 				comment.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
-				comment.setC_group(Integer.parseInt(request.getParameter("c_group")));
-				comment.setC_order(Integer.parseInt(request.getParameter("c_order")));
-				comment.setC_depth(Integer.parseInt(request.getParameter("c_depth")));
-				
+				comment.setC_content(request.getParameter("c_content"));
+			//	comment.setC_group(Integer.parseInt(request.getParameter("c_group")));
+			//	comment.setC_order(Integer.parseInt(request.getParameter("c_order")));
+			//	comment.setC_depth(Integer.parseInt(request.getParameter("c_depth")));
+		
 				commentService = CommentService.getInstance();
 				commentService.insertComment(comment);
-				
-				commentList = commentService.getComments(comment.getB_idx());		//받아왔던 목록을 다시 넘겨줌.
-				request.setAttribute("commentList", commentList);					//jsp에게로 commenList를 넘겨줌
-				view = "board/c_list";
+				view = "board/c_insert-result";
 				break;
 		
 			case "/comment-commentInComments.do":	// b_detail 댓글 목록의 댓글에 댓글 달기
