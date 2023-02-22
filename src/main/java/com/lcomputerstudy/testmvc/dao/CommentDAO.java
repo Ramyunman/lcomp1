@@ -32,7 +32,7 @@ public class CommentDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			String query = "select * from comment where b_idx=? order by c_idx desc";
+			String query = "select * from comment where b_idx=? order by c_group desc, c_order asc, c_depth asc";
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, b_idx);
 			rs = pstmt.executeQuery();
@@ -156,12 +156,10 @@ public class CommentDAO {
 		
 	}
 
-	public Comment deleteComment(Comment comment) {			//댓글 또는 대댓글 삭제
+	public void deleteComment(Comment comment) {			//댓글 또는 대댓글 삭제
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		Comment resultComment = null;
-		
+				
 		try {
 			conn = DBConnection.getConnection();
 			String query = "DELETE from comment where b_idx = ? and c_group = ? and c_order = ? and c_depth = ?";
@@ -170,20 +168,18 @@ public class CommentDAO {
 			pstmt.setInt(2, comment.getC_group());
 			pstmt.setInt(3, comment.getC_order());
 			pstmt.setInt(4, comment.getC_depth());
-			rs = pstmt.executeQuery();
+			pstmt.executeUpdate();
 		
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				rs.close();
 				pstmt.close();
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		return resultComment;
 	}
 
 	

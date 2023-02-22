@@ -12,8 +12,23 @@
 			
 			<tr>
 				<td>${comment.c_idx}</td>
-				<td>${comment.c_content}</td>
+				<c:choose>
+					<c:when test="${comment.c_depth > 0}">
+						<td style="text-align: left;">
+							
+						<c:forEach var="i" begin="1" end="${comment.c_depth}" step="1">
+								&nbsp;&nbsp;
+						</c:forEach>
+						ㄴ${comment.c_content}
+						</td>
+					</c:when>
+					<c:when test = "${comment.c_depth == 0 }">
+						<td style="text-align: left;">${comment.c_content}</td>
+					</c:when>
+				</c:choose>
+				
 				<td>${comment.c_date}</td>
+				
 				<td>
 					<button type="button" class="btnComment">댓글</button>
 					<button type="button" class="btnComment-Update">수정</button>

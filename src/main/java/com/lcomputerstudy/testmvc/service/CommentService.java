@@ -35,8 +35,8 @@ public class CommentService {
 	public void updateComment(Comment comment) {			//댓글 수정
 		dao.updateComment(comment); 
 	}												
-	public Comment deleteComment(Comment comment) {			//댓글 삭제
-		return dao.deleteComment(comment);
+	public void deleteComment(Comment comment) {			//댓글 삭제
+		dao.deleteComment(comment);
 	}
 	
 	

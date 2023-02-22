@@ -66,17 +66,25 @@
 		</tr>
 	</table>
 	<a href="/lcomp1/board-reply-insert.do?b_group=${board.b_group}&b_order=${board.b_order}&b_depth=${board.b_depth}">답글 등록</a>
-		
+	
+<%--		
 	<h4> >> 댓글 등록 </h4>
 	<form action="comment-original-insert-process.do" name="comment" method="post">
 		<input type = "hidden" name="b_idx" value="${board.b_idx}">
-<%-- 	<input type = "hidden" name="c_group" value="${comment.c_group}">
+ 		<input type = "hidden" name="c_group" value="${comment.c_group}">
 		<input type = "hidden" name="c_order" value="${comment.c_order}">
-		<input type = "hidden" name="c_depth" value="${comment.c_depth}">	--%>	
+		<input type = "hidden" name="c_depth" value="${comment.c_depth}">	
 		내용 : <input type="text" name="c_content">
 		
 		<input type="submit" value="등록하기">	
 	</form>
+--%>	
+	<button type="button" class="o_btnComment"> 댓글 등록 </button>
+		<div style="display: none;">
+			<textarea rows="3" cols="50" ></textarea>	
+			<button type="button" class="o_btnComment-register" c_group="${comment.c_group}" c_order="${comment.c_order}" c_depth="${comment.c_depth}">등록</button>
+			<button type="button" class="o_btnComment-cancel">취소</button>
+		</div>
 	
 	<h3>댓글 목록</h3>
 		<table id="commentList">
@@ -90,8 +98,24 @@
 				
 				<tr>
 					<td>${comment.c_idx}</td>
-					<td>${comment.c_content}</td>
+					<c:choose>
+						<c:when test="${comment.c_depth > 0}">
+							<td style="text-align: left;">
+							
+							<c:forEach var="i" begin="1" end="${comment.c_depth}" step="1">
+									&nbsp;&nbsp;
+							</c:forEach>
+							ㄴ${comment.c_content}
+							</td>
+						</c:when>
+						<c:when test = "${comment.c_depth == 0 }">
+							<td style="text-align: left;">${comment.c_content}</td>
+						</c:when>
+					</c:choose>
+				
 					<td>${comment.c_date}</td>
+				
+					
 					<td>
 						<button type="button" class="btnComment">댓글</button>
 						<button type="button" class="btnComment-Update">수정</button>
@@ -102,7 +126,7 @@
 				<tr style="display: none;">		<%-- 대댓글 등록창 --%>
 					<td>
 						<div>
-							<textarea rows="2" cols="80" ></textarea>	
+							<textarea rows="3" cols="50" ></textarea>	
 							<button type="button" class="btnComment-register" c_group="${comment.c_group}" c_order="${comment.c_order}" c_depth="${comment.c_depth}">등록</button>
 							<button type="button" class="btnComment-cancel">취소</button>
 						</div>	
@@ -112,7 +136,7 @@
 				<tr style="display: none;">		<%-- 대댓글 수정창 --%>
 					<td>
 						<div>
-							<textarea rows="2" cols="80"> ${comment.c_content } </textarea>
+							<textarea rows="3" cols="50"> ${comment.c_content } </textarea>
 							<button type="button" class="btnComment-Update-register" c_group="${comment.c_group}" c_order="${comment.c_order}" c_depth="${comment.c_depth}">등록</button>
 							<button type="button" class="btnComment-Update-cancel">취소</button>
 						</div>	
@@ -123,6 +147,35 @@
 		</table>
 
 <script>
+
+$(document).on('click', '.o_btnComment', function () {				//원댓글 달기 버튼		
+	console.log('원댓글 달기 버튼')
+	$(this).next().css('display','');
+});	
+
+$(document).on('click', '.o_btnComment-register', function () {				//원댓글 등록 버튼		
+	let bIdx = '${board.b_idx}';
+	let cContent = $(this).prev('textarea').val();
+	let cGroup = $(this).attr('c_group');
+	let cOrder = $(this).attr('c_order');
+	let cDepth = $(this).attr('c_depth');
+	
+	$.ajax({
+		method : 'POST',
+		url : "/lcomp1/comment-original-insert-process.do",
+		data : { b_idx:bIdx, c_content:cContent, c_group:cGroup, c_order:cOrder, c_depth:cDepth }
+	})
+	.done(function( msg ) {
+		console.log(msg);
+	   	$('#commentList').html(msg);
+	});
+	console.log('원댓글 등록 버튼')
+});	
+
+$(document).on('click', '.o_btnComment-cancel', function () {				//원댓글 취소 버튼		
+	console.log('원댓글 취소 버튼')
+	$(this).parent().css('display','none');
+});	
 
 $(document).on('click', '.btnComment', function () {				//대댓글 달기 버튼
 	console.log('대댓글 달기 버튼');
@@ -135,6 +188,13 @@ $(document).on('click', '.btnComment-register', function (){		//대댓글 등록
 	let cGroup = $(this).attr('c_group');
 	let cOrder = $(this).attr('c_order');
 	let cDepth = $(this).attr('c_depth');
+	
+	/*
+	console.log('cGroup: '+cGroup);
+	console.log('cOrder: '+cOrder);
+	console.log('cDepth: '+cDepth);
+	return false;
+	*/
 	
 	$.ajax({
 		  method: "POST",
