@@ -275,14 +275,7 @@ public class Controller extends HttpServlet {
 				comment = new Comment();
 				comment.setB_idx(Integer.parseInt(request.getParameter("b_idx")));
 				comment.setC_content(request.getParameter("c_content"));
-				comment.setC_date(request.getParameter("c_date"));
-				comment.setC_group(Integer.parseInt(request.getParameter("c_group")));
-				comment.setC_order(Integer.parseInt(request.getParameter("c_order")));
-				comment.setC_depth(Integer.parseInt(request.getParameter("c_depth")));
-		
-			/*	commentService = CommentService.getInstance();
-				commentService.insertComment(comment);
-				view = "board/c_original-insert-result";	*/
+			
 				commentService = CommentService.getInstance();
 				commentService.insertComment(comment);
 				

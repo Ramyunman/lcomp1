@@ -80,9 +80,10 @@
 	</form>
 --%>	
 	<button type="button" class="o_btnComment"> 댓글 등록 </button>
+		
 		<div style="display: none;">
 			<textarea rows="3" cols="50" ></textarea>	
-			<button type="button" class="o_btnComment-register" c_group="${comment.c_group}" c_order="${comment.c_order}" c_depth="${comment.c_depth}">등록</button>
+			<button type="button" class="o_btnComment-register">등록</button>
 			<button type="button" class="o_btnComment-cancel">취소</button>
 		</div>
 	
@@ -153,26 +154,24 @@ $(document).on('click', '.o_btnComment', function () {				//원댓글 달기 버
 	$(this).next().css('display','');
 });	
 
-$(document).on('click', '.o_btnComment-register', function () {				//원댓글 등록 버튼		
+$(document).on('click', '.o_btnComment-register', function () {		//원댓글 등록 버튼		
 	let bIdx = '${board.b_idx}';
 	let cContent = $(this).prev('textarea').val();
-	let cGroup = $(this).attr('c_group');
-	let cOrder = $(this).attr('c_order');
-	let cDepth = $(this).attr('c_depth');
 	
 	$.ajax({
 		method : 'POST',
 		url : "/lcomp1/comment-original-insert-process.do",
-		data : { b_idx:bIdx, c_content:cContent, c_group:cGroup, c_order:cOrder, c_depth:cDepth }
+		data : { b_idx:bIdx, c_content:cContent }
 	})
 	.done(function( msg ) {
 		console.log(msg);
 	   	$('#commentList').html(msg);
 	});
 	console.log('원댓글 등록 버튼')
+	$(this).parent().css('display','none');
 });	
 
-$(document).on('click', '.o_btnComment-cancel', function () {				//원댓글 취소 버튼		
+$(document).on('click', '.o_btnComment-cancel', function () {		//원댓글 취소 버튼		
 	console.log('원댓글 취소 버튼')
 	$(this).parent().css('display','none');
 });	
