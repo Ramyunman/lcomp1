@@ -17,6 +17,7 @@ import com.lcomputerstudy.testmvc.service.UserService;
 import com.lcomputerstudy.testmvc.vo.Board;
 import com.lcomputerstudy.testmvc.vo.Comment;
 import com.lcomputerstudy.testmvc.vo.Pagination;
+import com.lcomputerstudy.testmvc.vo.Search;
 import com.lcomputerstudy.testmvc.vo.User;
 
 @WebServlet("*.do")
@@ -48,6 +49,7 @@ public class Controller extends HttpServlet {
 		Board board = null;			//board 추가
 		Comment comment = null;		//comment(댓글)추가
 		ArrayList<Comment> commentList = null;
+		Search search = null;		//search 추가
 		
 		int page = 1;
 		int count = 0;
@@ -168,14 +170,19 @@ public class Controller extends HttpServlet {
 				String reqPage2 = request.getParameter("page");
 				if (reqPage2 != null) 
 					page = Integer.parseInt(reqPage2);
-					
+				
 				boardService = BoardService.getInstance();
 				count = boardService.getBoardsCount();
+				
+				search = new Search();
+				search.setTcw(request.getParameter("tcw"));
+				search.setSearchbox(request.getParameter("searchbox"));
 				
 				pagination = new Pagination();
 				pagination.setPage(page);
 				pagination.setUserCount(count);
 				pagination.init();
+				pagination.setSearch(search);		//추가
 				
 				ArrayList<Board> list2 = boardService.getBoards(pagination);
 				
@@ -330,7 +337,7 @@ public class Controller extends HttpServlet {
 				request.setAttribute("commentList", commentList);
 				view = "board/c_list";
 				break;
-	
+				
 		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher(view + ".jsp");

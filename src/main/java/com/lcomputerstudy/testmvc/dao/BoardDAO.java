@@ -34,6 +34,8 @@ public class BoardDAO {
 		ArrayList<Board> list = null;
 		int pageNum = pagination.getPageNum();
 		
+		String where = "";
+		
 		try {
 			conn = DBConnection.getConnection();
 			// String query = "select * from user limit ?,3";
@@ -42,6 +44,7 @@ public class BoardDAO {
 					.append("               t_board.*\n")
 					.append("FROM           board t_board\n")
 					.append("INNER JOIN      (SELECT @rownum := (SELECT COUNT(*)-?+1 FROM board t_board)) tc ON 1=1 \n")
+					.append(where)
 					.append("ORDER BY b_group DESC, b_order ASC\n")
 					.append("LIMIT          ?, ?\n")
 					.toString();

@@ -44,6 +44,10 @@
 		margin:0 5px;
 		border-radius:5px;
 	}
+	form {
+		text-align:center;
+		margin:50px
+	}
 </style>
 <body>
 <h1>게시글 목록</h1>
@@ -123,6 +127,18 @@
 			</c:choose>
 		</ul>
 	</div>
+	
+	<form action="board-list.do" name="search" method="get">
+		<select name="tcw">
+			<option value="none"> 선택 </option>
+			<option value="title"> 제목 </option>
+			<option value="content"> 내용 </option>
+			<option value="writer"> 작성자 </option>
+		</select>
+		<input type="text" name="searchbox" placeholder="입력하세요!">
+		<input type="submit" value="검색하기">
+	</form>
+	
 </body>
 
 </html>
