@@ -10,6 +10,7 @@ import com.lcomputerstudy.testmvc.database.DBConnection;
 import com.lcomputerstudy.testmvc.vo.Board;
 import com.lcomputerstudy.testmvc.vo.Comment;
 import com.lcomputerstudy.testmvc.vo.Pagination;
+import com.lcomputerstudy.testmvc.vo.Search;
 
 
 public class BoardDAO {
@@ -27,14 +28,14 @@ public class BoardDAO {
 		return dao;
 	}
 	
-	public ArrayList<Board> getBoards(Pagination pagination) {
+	public ArrayList<Board> getBoards(Pagination pagination, Search search) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<Board> list = null;
 		int pageNum = pagination.getPageNum();
 		
-		String where = "";
+		String where = "WHERE ? like '%?%' \n";
 		
 		try {
 			conn = DBConnection.getConnection();
@@ -50,8 +51,10 @@ public class BoardDAO {
 					.toString();
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, pageNum);
-			pstmt.setInt(2, pageNum);
-			pstmt.setInt(3, Pagination.perPage);
+			pstmt.setString(2, search.getTcw());		//추가
+			pstmt.setString(3, search.getSearchbox());		//추가
+			pstmt.setInt(4, pageNum);
+			pstmt.setInt(5, Pagination.perPage);
 			rs = pstmt.executeQuery();
 			list = new ArrayList<Board>();
 			
@@ -85,6 +88,11 @@ public class BoardDAO {
 		return list;
 	}
 	
+	private void setString(int i, Search search) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void insertBoard(Board board) {		// 등록
 		Connection conn = null;
 		PreparedStatement pstmt = null;

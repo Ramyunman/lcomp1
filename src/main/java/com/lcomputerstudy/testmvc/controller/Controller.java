@@ -184,7 +184,7 @@ public class Controller extends HttpServlet {
 				pagination.init();
 				pagination.setSearch(search);		//추가
 				
-				ArrayList<Board> list2 = boardService.getBoards(pagination);
+				ArrayList<Board> list2 = boardService.getBoards(pagination, search);
 				
 				request.setAttribute("list", list2);
 				request.setAttribute("pagination", pagination);

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.lcomputerstudy.testmvc.dao.BoardDAO;
 import com.lcomputerstudy.testmvc.vo.Board;
 import com.lcomputerstudy.testmvc.vo.Pagination;
+import com.lcomputerstudy.testmvc.vo.Search;
 
 public class BoardService {
 	
@@ -24,8 +25,8 @@ public class BoardService {
 		return service;
 	}
 	
-	public ArrayList<Board> getBoards(Pagination pagination) {
-		return dao.getBoards(pagination);
+	public ArrayList<Board> getBoards(Pagination pagination, Search search) {
+		return dao.getBoards(pagination, search);
 	}
 	public void insertBoard(Board board) {
 		dao.insertBoard(board);
