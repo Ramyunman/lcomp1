@@ -131,9 +131,9 @@
 	<form action="board-list.do" name="search" method="get">
 		<select name="tcw">
 			<option value="none"> 선택 </option>
-			<option value="b_title"> 제목 </option>
-			<option value="b_content"> 내용 </option>
-			<option value="b_writer"> 작성자 </option>
+			<option value="title"> 제목 </option>
+			<option value="content"> 내용 </option>
+			<option value="writer"> 작성자 </option>
 		</select>
 		<input type="text" name="searchbox" placeholder="입력하세요!">
 		<input type="submit" value="검색하기">

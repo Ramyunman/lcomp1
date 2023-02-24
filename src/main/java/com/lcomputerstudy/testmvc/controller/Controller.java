@@ -167,11 +167,12 @@ public class Controller extends HttpServlet {
 				break;
 			////////////////////////////board/////////////////////////////////
 			case "/board-list.do":
+				
 				String reqPage2 = request.getParameter("page");
 				if (reqPage2 != null) 
 					page = Integer.parseInt(reqPage2);
 				
-				boardService = BoardService.getInstance();
+				boardService = BoardService.getInstance(); 
 				count = boardService.getBoardsCount();
 				
 				search = new Search();
@@ -185,6 +186,7 @@ public class Controller extends HttpServlet {
 				pagination.setSearch(search);		//추가
 				
 				ArrayList<Board> list2 = boardService.getBoards(pagination, search);
+				boardService.getBoards(pagination, search);
 				
 				request.setAttribute("list", list2);
 				request.setAttribute("pagination", pagination);

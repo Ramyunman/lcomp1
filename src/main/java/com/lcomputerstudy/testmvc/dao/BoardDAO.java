@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import com.lcomputerstudy.testmvc.database.DBConnection;
 import com.lcomputerstudy.testmvc.vo.Board;
-import com.lcomputerstudy.testmvc.vo.Comment;
 import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.Search;
 
@@ -35,8 +34,27 @@ public class BoardDAO {
 		ArrayList<Board> list = null;
 		int pageNum = pagination.getPageNum();
 		
-		String where = "WHERE ? like '%?%' \n";
+		String where = "";
+		System.out.println("1");
+		System.out.println("2");
+		System.out.println("3");
+		System.out.println("4");
 		
+		if (search.getTcw() != null) {
+			switch (search.getTcw()) {
+				case "title":
+					where = "WHERE b_title like ? \n";
+					break;
+				case "content":
+					where = "WHERE b_content like ? \n";
+					break;
+				case "writer":
+					where = "WHERE b_title like ? \n";
+					break;
+					
+			}
+		}
+				
 		try {
 			conn = DBConnection.getConnection();
 			// String query = "select * from user limit ?,3";
@@ -51,10 +69,9 @@ public class BoardDAO {
 					.toString();
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, pageNum);
-			pstmt.setString(2, search.getTcw());		//추가
-			pstmt.setString(3, search.getSearchbox());		//추가
-			pstmt.setInt(4, pageNum);
-			pstmt.setInt(5, Pagination.perPage);
+			pstmt.setString(2, "%"+search.getSearchbox()+"%");		//추가
+			pstmt.setInt(3, pageNum);
+			pstmt.setInt(4, Pagination.perPage);
 			rs = pstmt.executeQuery();
 			list = new ArrayList<Board>();
 			
@@ -88,11 +105,6 @@ public class BoardDAO {
 		return list;
 	}
 	
-	private void setString(int i, Search search) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void insertBoard(Board board) {		// 등록
 		Connection conn = null;
 		PreparedStatement pstmt = null;
