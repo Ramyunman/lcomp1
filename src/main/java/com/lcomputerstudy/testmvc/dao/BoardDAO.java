@@ -27,34 +27,36 @@ public class BoardDAO {
 		return dao;
 	}
 	
-	public ArrayList<Board> getBoards(Pagination pagination, Search search) {
+	public ArrayList<Board> getBoards(Pagination pagination) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<Board> list = null;
 		int pageNum = pagination.getPageNum();
+		Search search = null;
 		
 		String where = "";
-		System.out.println("1");
-		System.out.println("2");
-		System.out.println("3");
-		System.out.println("4");
 		
-		if (search.getTcw() != null) {
-			switch (search.getTcw()) {
-				case "title":
-					where = "WHERE b_title like ? \n";
-					break;
-				case "content":
-					where = "WHERE b_content like ? \n";
-					break;
-				case "writer":
-					where = "WHERE b_title like ? \n";
-					break;
-					
-			}
+		if(search == null) {
+			search = new Search();
+			search.setTcw("none");
 		}
-				
+		
+		switch (search.getTcw()) {
+			case "title":
+				where = "WHERE b_title like ? \n";
+				break;
+			case "content":
+				where = "WHERE b_content like ? \n";
+				break;
+			case "writer":
+				where = "WHERE b_writer like ? \n";
+				break;
+			case "none":
+				where = "";
+				break;
+		}
+						
 		try {
 			conn = DBConnection.getConnection();
 			// String query = "select * from user limit ?,3";
